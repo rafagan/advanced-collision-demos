@@ -35,6 +35,7 @@ public:
 	void setColor(math::Vector3D color);
 
 	virtual void draw(unsigned char alpha = 255) const;
+	virtual void update();
 
 	virtual ~Actor(void);
 };

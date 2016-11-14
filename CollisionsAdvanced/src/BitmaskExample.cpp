@@ -15,7 +15,7 @@ void BitmaskExample::init()
 {
 }
 
-void BitmaskExample::update(const float dt)
+void BitmaskExample::update()
 {
 }
 

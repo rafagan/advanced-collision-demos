@@ -15,7 +15,7 @@ void UnionPolygonExample::init()
 {
 }
 
-void UnionPolygonExample::update(const float dt)
+void UnionPolygonExample::update()
 {
 }
 

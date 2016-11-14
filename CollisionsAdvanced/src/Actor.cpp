@@ -1,10 +1,10 @@
 #include "Actor.h"
 
 #include "DrawUtils.h"
+#include "Math/ofDraw.h"
 
 using namespace std;
 using namespace math;
-using namespace math::lh;
 
 Actor::Actor(const std::string fileName, float _width, float _height, std::initializer_list<unsigned> _frames, float _framerate)
 	: frames(_frames), frame(0), framerate(_framerate), timeSpent(0), centered(true), color(Vector3D(255, 255, 255))
@@ -52,8 +52,18 @@ void Actor::setColor(math::Vector3D color)
 
 void Actor::draw(unsigned char alpha) const
 {
-	cg::drawImage(position, image, centered);
+	auto world = 
+		lh::newAffineScale(localScale.x, localScale.y) * 
+		lh::newAffineRotation(angle) * 
+		lh::newAffineTranslation(position);
+
+	lh::draw(world, image);
 	//TODO: box.draw(Vector3D(255,0,0));
+}
+
+void Actor::update()
+{
+	angle += 1 * ofGetLastFrameTime();
 }
 
 Actor::~Actor(void)

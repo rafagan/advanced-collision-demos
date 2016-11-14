@@ -19,8 +19,9 @@ void AABBRotationExample::init()
 	actor->setPosition(ofGetWidth() / 2, ofGetHeight() / 2);
 }
 
-void AABBRotationExample::update(const float dt)
+void AABBRotationExample::update()
 {
+	actor->update();
 }
 
 void AABBRotationExample::draw()

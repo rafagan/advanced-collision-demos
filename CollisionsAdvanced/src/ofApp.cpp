@@ -26,7 +26,7 @@ void ofApp::update(){
 			screen->init();
 		}
 
-		screen->update(ofGetLastFrameTime());
+		screen->update();
 	}
 	catch (exception& e) {
 		cerr << "Exception: " << e.what() << endl;

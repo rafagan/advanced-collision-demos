@@ -8,7 +8,7 @@ public:
 	virtual ~BitmaskExample();
 
 	void init() override;
-	void update(const float dt) override;
+	void update() override;
 	void draw() override;
 	void close() override;
 	IScreen* nextScreen() override;
