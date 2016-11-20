@@ -5,9 +5,9 @@
 * This software can be copied, stored and distributed without
 * author's prior authorization. Just let him know and leave this header in this source code.
 *
-* This file was made available on ???????????????????????? and it is free
+* This file was made available on https://github.com/rafagan/advanced-collision-demos and it is free
 * to be restributed or used under Apache 2.0 license:
-* http://www.apache.org/licenses/
+* http://www.apache.org/licenses/LICENSE-2.0/
 *
 ******************************************************************************/
 
@@ -27,17 +27,18 @@ namespace math {
 		static AABB newByUnion(const AABB& a, const AABB& b);
 
 		/*
-		Esta abordagem considera que os valores da posição, tamanho, ângulo e escala devem ficar no AABB
-		A vantagem é que possuiremos métodos mais limpos e o objeto da classe pode ser uma referência a esses atributos do objeto
-		A desvantagem é que eles sempre devem ser atualizados, o que gera duplicata de dados nas classes
-		Uma classe cuja função de desenho é realizada no centro da imagem e não no canto superior esquerdo pode gerar inconsisência na aplicação da colisão caso a mesma posição seja utilizada
-		Outra forma de resolver o problema seria receber dados como posição e tamanho como argumento dos métodos
+		This approach considers that position, size, angle, and scale values should be in the AABB
+		The advantage is that we will have cleaner methods and the object of the class can be a reference to these attributes of the object
+		The disadvantage is that they should always be updated, which generates duplicate data in classes
+		A class whose drawing function is performed in the center of the image and not in the upper left 
+		  corner can generate inconsistency in the application of the collision if the same position is used
+		Another way to solve the problem would be receive data such as position and size as an argument of the methods
 		*/
-		math::Vector2D position, size;
+		Vector2D position, size;
 
 		explicit AABB() {};
 		explicit AABB(float x, float y, float width, float height);
-		explicit AABB(math::Vector2D position, math::Vector2D size);
+		explicit AABB(Vector2D position, Vector2D size);
 		
 		bool contains(const Vector2D& point) const;
 		bool contains(const AABB& other) const;
@@ -47,17 +48,17 @@ namespace math {
 		AABB intersection(const AABB& other) const;
 		bool intersects(const BoundingCircle& circle) const;
 
-		void transform(math::Vector2D position, float angle, math::Vector2D size, bool centered);
+		void transform(Vector2D position, float angle, Vector2D size, bool centered);
 
 		float left() const;
 		float right() const;
 		float top() const;
 		float bottom() const;
 
-		math::Vector2D getCenter() const;
-		std::array<math::Vector2D, 4> getBounds() const;
+		Vector2D getCenter() const;
+		std::array<Vector2D, 4> getBounds() const;
 
-		virtual void draw(math::Vector3D color) const {};
+		virtual void draw(Vector3D color) const {};
 
 		virtual ~AABB(void);
 	};

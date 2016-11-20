@@ -7,7 +7,7 @@
 *
 * This file was made available on ?????????????????????????????? and it is free
 * to be restributed or used under Apache 2.0 license:
-* http://www.apache.org/licenses/
+* http://www.apache.org/licenses/LICENSE-2.0/
 *
 ******************************************************************************/
 
@@ -31,7 +31,7 @@ BoundingCircle::BoundingCircle(math::Vector2D _position, float _radius)
 
 BoundingCircle BoundingCircle::newByUnion(const BoundingCircle& a, const BoundingCircle& b)
 {
-	Vector2D offset = a.position - b.position;
+	auto offset = a.position - b.position;
 	return BoundingCircle(offset/2 + b.position,(offset.size() + a.radius + b.radius)/2);
 }
 
@@ -42,8 +42,8 @@ bool BoundingCircle::contains(const Vector2D& point) const
 
 bool BoundingCircle::contains(const AABB& box) const
 {
-	//Box interna ao círculo
-	float apothem = radius * sqrtf(2) / 2;
+	//Box inside the circle
+	auto apothem = radius * sqrtf(2) / 2;
 	Vector2D innerBoxCenter(apothem, apothem);
 	AABB innerBox(position - innerBoxCenter, innerBoxCenter * 2);
 
