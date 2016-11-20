@@ -5,5 +5,5 @@
 #include "MathUtil.h"
 #include "Matrix3.h"
 #include "AffineTransform.h"
-//#include "AABB.h"
-//#include "BoundingCircle.h"
+#include "AABB.h"
+#include "BoundingCircle.h"

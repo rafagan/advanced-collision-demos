@@ -11,7 +11,6 @@
 
 class Actor : public GameObject
 {
-private:
 	ofImage image;
 	std::vector<unsigned int> frames;
 	unsigned int frame;
@@ -24,6 +23,7 @@ private:
 	math::Vector3D color;
 	math::Vector2D position;
 	math::Vector2D localScale;
+
 public:
 	explicit Actor(): frame(0), framerate(0), timeSpent(0), centered(false), angle(0) {}
 	explicit Actor(const std::string fileName, float width, float height, std::initializer_list<unsigned int> frames, float framerate = 0);
@@ -35,6 +35,7 @@ public:
 	void setColor(math::Vector3D color);
 
 	virtual void draw(unsigned char alpha = 255) const;
+	//virtual void drawIntersection(const Actor& other) const;
 	virtual void update();
 
 	virtual ~Actor(void);

@@ -181,8 +181,9 @@
     <ClCompile Include="src\DrawUtils.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Math\AABB.cpp" />
     <ClCompile Include="src\Math\AffineTransform.cpp" />
-    <ClCompile Include="src\Math\collisions.cpp" />
+    <ClCompile Include="src\Math\BoundingCircle.cpp" />
     <ClCompile Include="src\Math\MathUtil.cpp" />
     <ClCompile Include="src\Math\Matrix3.cpp" />
     <ClCompile Include="src\Math\Vector2D.cpp" />
@@ -197,8 +198,9 @@
     <ClInclude Include="src\DrawUtils.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\IScreen.h" />
+    <ClInclude Include="src\Math\AABB.h" />
     <ClInclude Include="src\Math\AffineTransform.h" />
-    <ClInclude Include="src\Math\collisions.h" />
+    <ClInclude Include="src\Math\BoundingCircle.h" />
     <ClInclude Include="src\Math\MathIncluder.h" />
     <ClInclude Include="src\Math\MathUtil.h" />
     <ClInclude Include="src\Math\Matrix3.h" />
