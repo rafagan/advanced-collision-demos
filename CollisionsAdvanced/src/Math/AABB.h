@@ -31,6 +31,8 @@ namespace math {
 	public:
 		static AABB newByBounds(float left, float right, float top, float bottom);
 		static AABB newByUnion(const AABB& a, const AABB& b);
+		static AABB outerBoxFromCircle(const BoundingCircle& circle);
+		static AABB innerBoxFromCircle(const BoundingCircle& circle);
 
 		/*
 		This approach considers that position, size, angle, and scale values should be in the AABB
@@ -69,9 +71,9 @@ namespace math {
 		float right() const;
 		float top() const;
 		float bottom() const;
-
-		Vector2D getCenter() const;
-		std::array<Vector2D, 4> getBounds() const;
+		
+		Vector2D center() const;
+		std::array<Vector2D, 4> bounds() const;
 
 		void draw(std::shared_ptr<IAABB_DrawHelper> helper) const;
 

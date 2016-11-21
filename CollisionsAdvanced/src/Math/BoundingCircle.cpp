@@ -39,28 +39,41 @@ BoundingCircle BoundingCircle::newByUnion(const BoundingCircle& a, const Boundin
 	return BoundingCircle(a.p + (v1 + v2 + offset) / 2, a.radius + (v1 + v2 + offset).size() / 2);
 }
 
-//Testando
-bool BoundingCircle::contains(const Vector2D& point) const
+BoundingCircle BoundingCircle::innerCircleFromBox(const AABB& box)
 {
-	return distanceSqr(position, point) < (position - point).sizeSqr();
+	if (box.size.x != box.size.y)
+		return BoundingCircle();
+	return BoundingCircle(box.position + box.size / 2, box.size.x / 2);
 }
 
-//Testando
+BoundingCircle BoundingCircle::outerCircleFromBox(const AABB& box)
+{
+	if (box.size.x != box.size.y)
+		return BoundingCircle();
+	return BoundingCircle(box.position + box.size / 2, (box.size / 2).size());
+}
+
+float BoundingCircle::innerBoxApothem(const BoundingCircle& circle)
+{
+	return circle.innerBoxApothem();
+}
+
+//ok
+bool BoundingCircle::contains(const Vector2D& point) const
+{
+	return distanceSqr(position, point) < pow(radius, 2);
+}
+
+//TODO arrumar
 bool BoundingCircle::contains(const AABB& box) const
 {
-	//Box inside the circle
-	//https://goo.gl/Yy2rpk
-	auto apothem = radius * sqrtf(2) / 2;
-	Vector2D innerBoxCenter(apothem, apothem);
-	AABB innerBox(position - innerBoxCenter, innerBoxCenter * 2);
-
-	return innerBox.contains(box);
+	return false;
 }
 
 //ok
 bool BoundingCircle::contains(const BoundingCircle& other) const
 {
-	return contains(other.position);
+	//https://goo.gl/VFI2w5
 	return distanceSqr(position, other.position) < powf(radius - other.radius, 2);
 }
 
@@ -74,6 +87,12 @@ bool BoundingCircle::intersects(const AABB& box) const
 bool BoundingCircle::intersects(const BoundingCircle& other) const
 {
 	return distanceSqr(position, other.position) < powf(radius + other.radius, 2);
+}
+
+//https://goo.gl/dJ9EBF
+float BoundingCircle::innerBoxApothem() const
+{
+	return radius * sqrtf(2) / 2;
 }
 
 void BoundingCircle::draw(std::shared_ptr<IBoundingCircleDrawHelper> helper) const

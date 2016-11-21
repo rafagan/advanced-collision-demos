@@ -28,8 +28,10 @@ namespace math {
 
 	class BoundingCircle {
 		public:
-
 		static BoundingCircle newByUnion(const BoundingCircle& a, const BoundingCircle& b);
+		static BoundingCircle innerCircleFromBox(const AABB& box);
+		static BoundingCircle outerCircleFromBox(const AABB& box);
+		static float innerBoxApothem(const BoundingCircle& circle);
 
 		union {
 			Vector2D position;
@@ -49,6 +51,8 @@ namespace math {
 
 		bool intersects(const AABB& box) const;
 		bool intersects(const BoundingCircle& other) const;
+
+		float innerBoxApothem() const;
 
 		void draw(std::shared_ptr<IBoundingCircleDrawHelper> helper) const;
 

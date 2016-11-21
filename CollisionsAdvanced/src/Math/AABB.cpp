@@ -36,7 +36,6 @@ AABB AABB::newByBounds(float left, float right, float top, float bottom)
 	return AABB(left, top, right - left, top - bottom);
 }
 
-//OK
 AABB AABB::newByUnion(const AABB& a, const AABB& b)
 {
 	auto boxUnion = AABB(
@@ -48,7 +47,23 @@ AABB AABB::newByUnion(const AABB& a, const AABB& b)
 	return boxUnion;
 }
 
-//OK
+//https://goo.gl/Z38hHF
+AABB AABB::outerBoxFromCircle(const BoundingCircle& circle)
+{
+	Vector2D halfSize(circle.radius, circle.radius);
+	AABB outerBox(circle.position - halfSize, halfSize * 2);
+	return outerBox;
+}
+
+//https://goo.gl/Yy2rpk
+AABB AABB::innerBoxFromCircle(const BoundingCircle& circle)
+{
+	auto apothem = circle.innerBoxApothem();
+	Vector2D innerBoxCenter(apothem, apothem);
+	AABB innerBox(circle.position - innerBoxCenter, innerBoxCenter * 2);
+	return innerBox;
+}
+
 bool AABB::contains(const Vector2D& point) const
 {
 	auto left = (point.x >= this->left());
@@ -59,25 +74,17 @@ bool AABB::contains(const Vector2D& point) const
 	return (left && right && top && bottom);
 }
 
-//ok
 bool AABB::contains(const AABB& other) const
 {
-	auto p = other.getBounds();
+	auto p = other.bounds();
 	return contains(p[0]) && contains(p[1]) && contains(p[2]) && contains(p[3]);
 }
 
-//ok
 bool AABB::contains(const BoundingCircle& circle) const
 {
-	//External box to circle
-	//https://goo.gl/Z38hHF
-	Vector2D halfSize(circle.radius, circle.radius);
-	AABB outerBox(circle.position - halfSize, halfSize * 2);
-
-	return contains(outerBox);
+	return contains(outerBoxFromCircle(circle));
 }
 
-//ok
 bool AABB::intersects(const AABB& other) const
 {
 	if(left() > other.right())
@@ -106,7 +113,6 @@ AABB AABB::intersection(const AABB& other) const
 	return intersectionBox;
 }
 
-//OK
 bool AABB::intersects(const BoundingCircle& circle) const
 {
 	Vector2D nearestPoint;
@@ -128,7 +134,6 @@ bool AABB::intersects(const BoundingCircle& circle) const
 	return distanceSqr(nearestPoint, circle.position) < powf(circle.radius, 2);
 }
 
-//ok
 void AABB::transform(Vector2D _position, float angle, Vector2D _size, bool centered)
 {
 	array<Vector2D, 4> bounds;
@@ -181,13 +186,13 @@ float AABB::bottom() const
 	return position.y;
 }
 
-//Também chamado de extents por algumas engines
-math::Vector2D AABB::getCenter() const
+//Also called extents by some engines
+math::Vector2D AABB::center() const
 {
 	return position + size / 2;
 }
 
-array<Vector2D, 4> AABB::getBounds() const
+array<Vector2D, 4> AABB::bounds() const
 {
 	array<Vector2D, 4> a;
 	a[0] = Vector2D(left(), top());

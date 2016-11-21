@@ -27,7 +27,7 @@ void CollisionsExample::drawElement(const ColliderWrapper& tmp) const
 	if (tmp.boxOrCircle == 1) {
 		auto elem = static_cast<AABB*>(tmp.mathElement);
 		elem->draw(aabbDraw);
-		cg::drawBox(elem->p + elem->s / 2, elem->s);
+		//cg::drawBox(elem->p + elem->s / 2, elem->s);
 	}
 	else if (tmp.boxOrCircle == 2) {
 		auto elem = static_cast<BoundingCircle*>(tmp.mathElement);
@@ -166,6 +166,12 @@ void CollisionsExample::draw()
 		drawElement(*tmp);
 	}
 	drawElement(*currentSelected);
+
+	//Look for the inner and outer boxes and circles
+	//AABB::innerBoxFromCircle(circleYellow).draw(make_shared<ofAABB_DrawHelper>());
+	//AABB::outerBoxFromCircle(circleYellow).draw(make_shared<ofAABB_DrawHelper>());
+	BoundingCircle::innerCircleFromBox(boxRed).draw(make_shared<ofBC_DrawHelper>());
+	BoundingCircle::outerCircleFromBox(boxRed).draw(make_shared<ofBC_DrawHelper>());
 }
 
 void CollisionsExample::close()
