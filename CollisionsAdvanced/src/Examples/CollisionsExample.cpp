@@ -117,8 +117,8 @@ void CollisionsExample::update()
 	currentSelected->selected = true; //Workaround for the first selection (without input)
 	currentSelected->position = mouse;
 
-	if (KEY(OF_KEY_UP)) currentSelected->size++;
-	if (KEY(OF_KEY_DOWN)) currentSelected->size--;
+	if (KEY(OF_KEY_UP)) currentSelected->size += 60 * ofGetLastFrameTime();
+	if (KEY(OF_KEY_DOWN)) currentSelected->size -= 60 * ofGetLastFrameTime();
 
 	for (auto i = 0; i < wrappers.size(); i++) {
 		auto tmp = &wrappers[i];
