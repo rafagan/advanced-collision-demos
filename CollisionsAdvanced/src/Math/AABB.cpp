@@ -121,7 +121,7 @@ bool AABB::intersects(const BoundingCircle& circle) const
 
 void AABB::transform(Vector2D _position, float angle, Vector2D _size, bool centered)
 {
-	array<math::Vector2D, 4> bounds;
+	array<Vector2D, 4> bounds;
 
 	if(centered) {
 		auto extents = _size / 2;
@@ -136,9 +136,9 @@ void AABB::transform(Vector2D _position, float angle, Vector2D _size, bool cente
 		bounds[3] = Vector2D(0.0f, _size.y);
 	}
 
-	auto world = rh::newAffineRotation(angle);
-	for(auto i = 0; i < 4; ++i)
-		bounds[i] = rh::transform(world, bounds[i]);
+	auto world = lh::newAffineRotation(angle);
+	for (auto i = 0; i < 4; ++i)
+		bounds[i] = lh ::transform(world, bounds[i]);
 
 	auto p = Vector2D(
 		min({bounds[0].x, bounds[1].x, bounds[2].x, bounds[3].x}),
@@ -177,15 +177,20 @@ math::Vector2D AABB::getCenter() const
 	return position + size / 2;
 }
 
-array<math::Vector2D, 4> AABB::getBounds() const
+array<Vector2D, 4> AABB::getBounds() const
 {
-	array<math::Vector2D, 4> a;
+	array<Vector2D, 4> a;
 	a[0] = Vector2D(left(), top());
 	a[1] = Vector2D(right(), top());
 	a[2] = Vector2D(right(), bottom());
 	a[3] = Vector2D(left(), bottom());
 
 	return a;
+}
+
+void AABB::draw(shared_ptr<AABB_DrawHelper> helper) const
+{
+	helper->draw(*this, false);
 }
 
 ostream& math::operator<<(ostream& output, const AABB& box)

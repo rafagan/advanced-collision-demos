@@ -5,7 +5,6 @@
 
 class AABBRotationExample : public IScreen
 {
-private:
 	Actor* actor;
 public:
 	explicit AABBRotationExample();

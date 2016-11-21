@@ -2,8 +2,9 @@
 
 #include "ofMain.h"
 #include "IScreen.h"
+#include "EventManager.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 public:
 	void setup() override;
 	void update() override;
@@ -20,10 +21,6 @@ public:
 	void windowResized(int w, int h) override;
 	void dragEvent(ofDragInfo dragInfo) override;
 	void gotMessage(ofMessage msg) override;
-
 private:
-	IScreen* screen;
-
-	//Eventos de tecla pressionada não acontecem em tempo real
-	std::unordered_map<int, bool> keyOn;
+	IScreen* screen = nullptr;
 };

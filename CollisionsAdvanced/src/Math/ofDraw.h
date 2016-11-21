@@ -29,14 +29,14 @@
 #define __OF_DRAW_H__
 
  //OpenFrameworks trabalha com regra da mão esquerda
- inline void __draw(const ofMatrix4x4 matrix, const ofImage& img) {
+inline void __draw(const ofMatrix4x4 matrix, const ofImage& img) {
 	ofPushMatrix();
 	ofMultMatrix(matrix);
 	img.draw(-img.getWidth() / 2.0f, -img.getHeight() / 2.0f);
 	ofPopMatrix();
 }
 
- inline void __drawSubsection(const ofMatrix4x4 matrix, const math::Vector2D& dimensions, const ofImage& img, unsigned int index) {
+inline void __drawSubsection(const ofMatrix4x4 matrix, const math::Vector2D& dimensions, const ofImage& img, unsigned int index) {
 	unsigned int numQuads[2] = {
 		static_cast<unsigned int>(img.getWidth() / dimensions.x),
 		static_cast<unsigned int>(img.getHeight() / dimensions.y)
@@ -104,5 +104,17 @@ namespace math {
 		}
     }
 }
+
+class ofAABB_DrawHelper : public math::AABB_DrawHelper
+{
+public:
+	void draw(const math::AABB& box, bool invertY = true) const override {
+		ofNoFill();
+		ofDrawPlane(box.position.x, invertY ? (ofGetHeight() - box.position.y) : box.position.y, box.size.x, box.size.y);
+		ofFill();
+	};
+	
+	~ofAABB_DrawHelper() override {};
+};
 
 #endif //__OF_DRAW_H__

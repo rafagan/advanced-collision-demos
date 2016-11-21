@@ -6,6 +6,17 @@
 using namespace std;
 using namespace math;
 
+void Actor::updateAnimationFrames()
+{
+	if (frames.size() > 1)
+		if (ofGetElapsedTimef() > timeSpent + framerate) {
+			timeSpent = ofGetElapsedTimef();
+			frame = frame + 1 == frames.size() ? 0 : ++frame;
+		}
+		else
+			frame = 0;
+}
+
 Actor::Actor(const std::string fileName, float _width, float _height, std::initializer_list<unsigned> _frames, float _framerate)
 	: frames(_frames), frame(0), framerate(_framerate), timeSpent(0), centered(true), color(Vector3D(255, 255, 255))
 {
@@ -14,7 +25,7 @@ Actor::Actor(const std::string fileName, float _width, float _height, std::initi
 		_width > 0 ? _width : image.getWidth(), 
 		_height > 0 ? _height : image.getHeight());
 
-	//TODO: box.size = getSize();
+	box.size = getSizeScaled();
 
 	if (frames.empty()) 
 		frames.push_back(0);
@@ -25,12 +36,17 @@ Actor::Actor(const std::string fileName, float _width, float _height, std::initi
 	setScale(Vector2D(1, 1));
 }
 
+Vector2D Actor::getSizeScaled() const
+{
+	return Vector2D(localScale.x * size.x, localScale.y * size.y);
+}
+
 void Actor::setPosition(float x, float y)
 {
 	this->position.set(x, y);
 }
 
-void Actor::setPosition(math::Vector2D position)
+void Actor::setPosition(Vector2D position)
 {
 	this->position = position;
 }
@@ -45,25 +61,58 @@ void Actor::setScale(math::Vector2D scale)
 	this->localScale.set(scale);
 }
 
-void Actor::setColor(math::Vector3D color)
+void Actor::setColor(Vector3D color)
 {
 	this->color = color;
 }
 
-void Actor::draw(unsigned char alpha) const
+void Actor::translate(float x, float y)
+{
+	translate(Vector2D(x, y));
+}
+
+void Actor::translate(Vector2D translation)
+{
+	setPosition(position + translation);
+}
+
+void Actor::rotate(float angle)
+{
+	setAngle(this->angle + angle);
+}
+
+void Actor::scale(float ratio)
+{
+	setScale(localScale + localScale * ratio);
+}
+
+void Actor::scale(math::Vector2D ratio)
+{
+	setScale(Vector2D(localScale.x * ratio.x, localScale.y * ratio.y));
+}
+
+void Actor::draw() const
 {
 	auto world = 
 		lh::newAffineScale(localScale.x, localScale.y) * 
 		lh::newAffineRotation(angle) * 
 		lh::newAffineTranslation(position);
 
-	lh::draw(world, image);
-	//TODO: box.draw(Vector3D(255,0,0));
+	cg::setColor(Vector3D(255, 255, 0));
+	lh::draw(world, image, size, frame);
+	cg::setColor(Vector3D(255, 0, 0));
+	box.draw(make_shared<ofAABB_DrawHelper>());
 }
 
 void Actor::update()
 {
-	angle += 1 * ofGetLastFrameTime();
+	//Update animation
+	updateAnimationFrames();
+
+	box.transform(position, angle, getSizeScaled(), false); //TODO: centered
+
+	//Uncomment for an automatic AABB rotation example
+	//rotate(toRadians(30 * ofGetLastFrameTime()));
 }
 
 Actor::~Actor(void)

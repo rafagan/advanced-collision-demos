@@ -1,6 +1,7 @@
 #include "ofApp.h"
 #include "AABBRotationExample.h"
 #include "UnionPolygonExample.h"
+#include "BitmaskExample.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -42,12 +43,12 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	keyOn[tolower(key)] = false;
+	EventManager::keyOn[tolower(key)] = true;
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-	keyOn[tolower(key)] = true;
+	EventManager::keyOn[tolower(key)] = false;
 }
 
 //--------------------------------------------------------------

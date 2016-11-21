@@ -20,6 +20,7 @@
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Math\AABB.cpp" />
     <ClCompile Include="src\Math\BoundingCircle.cpp" />
+    <ClCompile Include="src\EventManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -49,6 +50,7 @@
     <ClInclude Include="src\Math\MathIncluder.h" />
     <ClInclude Include="src\Math\AABB.h" />
     <ClInclude Include="src\Math\BoundingCircle.h" />
+    <ClInclude Include="src\EventManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

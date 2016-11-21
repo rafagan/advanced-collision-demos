@@ -1,11 +1,11 @@
 #include "AABBRotationExample.h"
 #include "DrawUtils.h"
 #include <ofAppNoWindow.h>
+#include "EventManager.h"
 
 using namespace math;
 
-AABBRotationExample::AABBRotationExample()
-{
+AABBRotationExample::AABBRotationExample(): actor(nullptr) {
 }
 
 
@@ -21,6 +21,26 @@ void AABBRotationExample::init()
 
 void AABBRotationExample::update()
 {
+	float dt = ofGetLastFrameTime();
+
+	if (EventManager::getKeyState(OF_KEY_RIGHT))
+		actor->rotate(-toRadians(30 * dt));
+	if (EventManager::getKeyState(OF_KEY_LEFT))
+		actor->rotate(toRadians(30 * dt));
+	if (EventManager::getKeyState(OF_KEY_UP))
+		actor->scale(1 * dt);
+	if (EventManager::getKeyState(OF_KEY_DOWN))
+		actor->scale(-1 * dt);
+
+	if (KEY('A'))
+		actor->translate(Vector2D(-100, 0) * dt);
+	if (KEY('D'))
+		actor->translate(Vector2D(100, 0) * dt);
+	if (KEY('W'))
+		actor->translate(Vector2D(0, -100) * dt);
+	if (KEY('S'))
+		actor->translate(Vector2D(0, 100) * dt);
+
 	actor->update();
 }
 

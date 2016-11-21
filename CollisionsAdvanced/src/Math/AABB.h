@@ -15,13 +15,19 @@
 
 #include <array>
 #include "Vector2D.h"
-#include "Vector3D.h"
+#include <memory>
 
 namespace math {
+	class AABB;
 	class BoundingCircle;
 
-	class AABB
-	{
+	class AABB_DrawHelper {
+	public:
+		virtual void draw(const AABB& box, bool invertY = true) const = 0;
+		virtual ~AABB_DrawHelper() {};
+	};
+
+	class AABB {
 	public:
 		static AABB newByBounds(float left, float right, float top, float bottom);
 		static AABB newByUnion(const AABB& a, const AABB& b);
@@ -34,7 +40,16 @@ namespace math {
 		  corner can generate inconsistency in the application of the collision if the same position is used
 		Another way to solve the problem would be receive data such as position and size as an argument of the methods
 		*/
-		Vector2D position, size;
+		union {
+			Vector2D position;
+			Vector2D p;
+			float xy[2];
+		};
+		union {
+			Vector2D size;
+			Vector2D s;
+			float wh[2];
+		};
 
 		explicit AABB() {};
 		explicit AABB(float x, float y, float width, float height);
@@ -58,7 +73,7 @@ namespace math {
 		Vector2D getCenter() const;
 		std::array<Vector2D, 4> getBounds() const;
 
-		virtual void draw(Vector3D color) const {};
+		void draw(std::shared_ptr<AABB_DrawHelper> helper) const;
 
 		virtual ~AABB(void);
 	};
