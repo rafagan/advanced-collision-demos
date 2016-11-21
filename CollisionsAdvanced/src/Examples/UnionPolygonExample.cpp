@@ -43,8 +43,8 @@ void UnionPolygonExample::draw()
 	boxC.draw(aabbDraw);
 
 	//Bounding Circles Union
-	auto circleA = BoundingCircle(Vector2D(500 + variationX * 300, 100.0f), 10);
-	auto circleB = BoundingCircle(Vector2D(700, 200), variationX * 50);
+	auto circleA = BoundingCircle(Vector2D(500.0f + 400 * variationX, 400.0f), 10);
+	auto circleB = BoundingCircle(Vector2D(200.0f, 300.0f + 200.0f * variationX), 100 * variationX + 100);
 	
 	auto bcDraw = make_shared<ofBC_DrawHelper>();
 
@@ -56,6 +56,13 @@ void UnionPolygonExample::draw()
 
 	cg::setColor(Vector3D(255, 255, 0));
 	circleC.draw(bcDraw);
+
+	//Drawing the line between circles to debug algorithm
+	cg::setColor(Vector3D(0, 0, 255));
+	auto offset = (circleB.position - circleA.position);
+	auto v1 = -resize(circleA.position - circleB.position, circleB.radius);
+	auto v2 = -resize(circleB.position - circleA.position, circleA.radius);
+	//cg::drawLine(circleA.p + v2, circleA.p + offset + v1);
 }
 
 void UnionPolygonExample::close()

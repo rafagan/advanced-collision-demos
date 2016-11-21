@@ -31,8 +31,11 @@ BoundingCircle::BoundingCircle(math::Vector2D _position, float _radius)
 
 BoundingCircle BoundingCircle::newByUnion(const BoundingCircle& a, const BoundingCircle& b)
 {
-	auto offset = a.position - b.position;
-	return BoundingCircle(offset/2 + b.position,(offset.size() + a.radius + b.radius)/2);
+	auto offset = (b.position - a.position);
+	auto v1 = -resize(a.position - b.position, b.radius);
+	auto v2 = -resize(b.position - a.position, a.radius);
+
+	return BoundingCircle(a.p + (v1 + v2 + offset) / 2, (v1 + v2 + offset).size() / 2 + a.radius);
 }
 
 bool BoundingCircle::contains(const Vector2D& point) const
