@@ -30,10 +30,9 @@ AABB::AABB(Vector2D _position, Vector2D _size)
 {
 }
 
-//TODO testar
 AABB AABB::newByBounds(float left, float right, float top, float bottom)
 {
-	return AABB(left, top, right - left, top - bottom);
+	return AABB(left, bottom, right - left, top - bottom);
 }
 
 AABB AABB::newByUnion(const AABB& a, const AABB& b)

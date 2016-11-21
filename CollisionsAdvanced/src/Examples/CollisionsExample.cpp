@@ -78,8 +78,7 @@ void CollisionsExample::testIntersects(ColliderWrapper& wrapper)
 	}
 }
 
-CollisionsExample::CollisionsExample(): currentSelected(nullptr) {
-}
+CollisionsExample::CollisionsExample(): currentSelected(nullptr) {}
 
 void CollisionsExample::init()
 {
