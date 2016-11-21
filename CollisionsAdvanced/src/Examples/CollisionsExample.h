@@ -12,7 +12,8 @@ struct ColliderWrapper {
 	short int id;
 
 	bool selected = false;
-	bool colliding = false;
+	bool intersects = false;
+	bool contains = false;
 	float size;
 	math::Vector2D position;
 };
@@ -20,7 +21,7 @@ struct ColliderWrapper {
 class CollisionsExample : public IScreen
 {
 	math::Vector2D mouse;
-	std::array<ColliderWrapper, 4> wrappers;
+	std::array<ColliderWrapper, 2> wrappers;
 	ColliderWrapper* currentSelected;
 
 	math::AABB boxRed, boxBlue;
@@ -29,6 +30,7 @@ class CollisionsExample : public IScreen
 	static math::Vector3D getElementColor(const ColliderWrapper& wrapper);
 	void setSelected(int id);
 	void drawElement(const ColliderWrapper& wrapper) const;
+	bool testCollision(const ColliderWrapper& wrapper);
 public:
 	explicit CollisionsExample();
 	void init() override;

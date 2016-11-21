@@ -77,9 +77,9 @@ bool AABB::intersects(const AABB& other) const
 		return false;
 	if(right() < other.left())
 		return false;
-	if(top() > other.bottom())
+	if(top() < other.bottom())
 		return false;
-	if(bottom() < other.top())
+	if(bottom() > other.top())
 		return false;
 
 	return true;
