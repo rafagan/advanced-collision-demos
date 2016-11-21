@@ -86,7 +86,7 @@ void Actor::scale(float ratio)
 	setScale(localScale + localScale * ratio);
 }
 
-void Actor::scale(math::Vector2D ratio)
+void Actor::scale(Vector2D ratio)
 {
 	setScale(Vector2D(localScale.x * ratio.x, localScale.y * ratio.y));
 }
@@ -109,10 +109,10 @@ void Actor::update()
 	//Update animation
 	updateAnimationFrames();
 
-	box.transform(position, angle, getSizeScaled(), false); //TODO: centered
+	box.transform(position, angle, getSizeScaled(), centered);
 
 	//Uncomment for an automatic AABB rotation example
-	//rotate(toRadians(30 * ofGetLastFrameTime()));
+	rotate(toRadians(30 * ofGetLastFrameTime()));
 }
 
 Actor::~Actor(void)

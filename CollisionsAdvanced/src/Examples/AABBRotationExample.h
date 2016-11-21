@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IScreen.h"
-#include "Actor.h"
+#include "../IScreen.h"
+#include "../Actor.h"
 
 class AABBRotationExample : public IScreen
 {

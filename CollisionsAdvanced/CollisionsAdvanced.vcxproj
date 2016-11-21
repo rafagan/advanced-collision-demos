@@ -176,9 +176,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\EventManager.cpp" />
-    <ClCompile Include="src\AABBRotationExample.cpp" />
+    <ClCompile Include="src\Examples\AABBRotationExample.cpp" />
     <ClCompile Include="src\Actor.cpp" />
-    <ClCompile Include="src\BitmaskExample.cpp" />
+    <ClCompile Include="src\Examples\BitmaskExample.cpp" />
     <ClCompile Include="src\DrawUtils.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -190,13 +190,13 @@
     <ClCompile Include="src\Math\Vector2D.cpp" />
     <ClCompile Include="src\Math\Vector3D.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
-    <ClCompile Include="src\UnionPolygonExample.cpp" />
+    <ClCompile Include="src\Examples\UnionPolygonExample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EventManager.h" />
-    <ClInclude Include="src\AABBRotationExample.h" />
+    <ClInclude Include="src\Examples\AABBRotationExample.h" />
     <ClInclude Include="src\Actor.h" />
-    <ClInclude Include="src\BitmaskExample.h" />
+    <ClInclude Include="src\Examples\BitmaskExample.h" />
     <ClInclude Include="src\DrawUtils.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\IScreen.h" />
@@ -210,7 +210,7 @@
     <ClInclude Include="src\Math\Vector2D.h" />
     <ClInclude Include="src\Math\Vector3D.h" />
     <ClInclude Include="src\ofApp.h" />
-    <ClInclude Include="src\UnionPolygonExample.h" />
+    <ClInclude Include="src\Examples\UnionPolygonExample.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

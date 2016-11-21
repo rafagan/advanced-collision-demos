@@ -110,7 +110,10 @@ class ofAABB_DrawHelper : public math::AABB_DrawHelper
 public:
 	void draw(const math::AABB& box, bool invertY = true) const override {
 		ofNoFill();
-		ofDrawPlane(box.position.x, invertY ? (ofGetHeight() - box.position.y) : box.position.y, box.size.x, box.size.y);
+		ofDrawRectangle(
+			box.position.x, 
+			invertY ? (ofGetHeight() - box.position.y) : box.position.y, 
+			box.size.x, box.size.y);
 		ofFill();
 	};
 	

@@ -1,7 +1,7 @@
 #include "AABBRotationExample.h"
-#include "DrawUtils.h"
+#include "../DrawUtils.h"
 #include <ofAppNoWindow.h>
-#include "EventManager.h"
+#include "../EventManager.h"
 
 using namespace math;
 
