@@ -26,7 +26,7 @@ void CollisionsExample::drawElement(const ColliderWrapper& tmp) const
 	if (tmp.boxOrCircle == 1) {
 		auto elem = static_cast<AABB*>(tmp.mathElement);
 		elem->draw(aabbDraw);
-		//cg::drawBox(elem->p + elem->s / 2, elem->s);
+		cg::drawBox(elem->p + elem->s / 2, elem->s);
 	}
 	else if (tmp.boxOrCircle == 2) {
 		auto elem = static_cast<BoundingCircle*>(tmp.mathElement);
@@ -47,6 +47,8 @@ bool CollisionsExample::testCollision(const ColliderWrapper& wrapper)
 
 	for (auto i = 0; i < wrappers.size(); i++) {
 		auto tmp = wrappers[i];
+		if (tmp.id == wrapper.id) continue;
+
 		if (tmp.boxOrCircle == 1) {
 			auto elem = static_cast<AABB*>(tmp.mathElement);
 			if (c1 != nullptr && elem->intersects(*c1)) 
@@ -85,23 +87,23 @@ void CollisionsExample::init()
 	boxBlue.position.set(wrappers[1].position);
 	boxBlue.size.set(wrappers[1].size, wrappers[1].size);
 
-//	wrappers[2].mathElement = &circleYellow;
-//	wrappers[2].id = 2;
-//	wrappers[2].defaultColor = Vector3D(255, 255, 0);
-//	wrappers[2].boxOrCircle = 2;
-//	wrappers[2].position.set(200, 500);
-//	wrappers[2].size = 80;
-//	circleYellow.position.set(wrappers[2].position);
-//	circleYellow.radius = wrappers[2].size;
-//
-//	wrappers[3].mathElement = &circleCyan;
-//	wrappers[3].id = 3;
-//	wrappers[3].defaultColor = Vector3D(0, 255, 255);
-//	wrappers[3].boxOrCircle = 2;
-//	wrappers[3].position.set(600, 200);
-//	wrappers[3].size = 80;
-//	circleCyan.position.set(wrappers[3].position);
-//	circleCyan.radius = wrappers[3].size;
+	wrappers[2].mathElement = &circleYellow;
+	wrappers[2].id = 2;
+	wrappers[2].defaultColor = Vector3D(255, 255, 0);
+	wrappers[2].boxOrCircle = 2;
+	wrappers[2].position.set(200, 500);
+	wrappers[2].size = 80;
+	circleYellow.position.set(wrappers[2].position);
+	circleYellow.radius = wrappers[2].size;
+
+	wrappers[3].mathElement = &circleCyan;
+	wrappers[3].id = 3;
+	wrappers[3].defaultColor = Vector3D(0, 255, 255);
+	wrappers[3].boxOrCircle = 2;
+	wrappers[3].position.set(600, 200);
+	wrappers[3].size = 80;
+	circleCyan.position.set(wrappers[3].position);
+	circleCyan.radius = wrappers[3].size;
 
 	currentSelected = &wrappers[0];
 }
@@ -118,18 +120,11 @@ void CollisionsExample::update()
 	if (KEY(OF_KEY_UP)) currentSelected->size++;
 	if (KEY(OF_KEY_DOWN)) currentSelected->size--;
 
-	for(auto i = 0; i < wrappers.size(); i++)
-		for (auto j = 0; j < wrappers.size(); j++) {
-			if (wrappers[i].id != wrappers[j].id)
-				wrappers[i].intersects = testCollision(wrappers[j]);
-			if (wrappers[i].intersects)
-				break;
-		}
-
 	for (auto i = 0; i < wrappers.size(); i++) {
 		auto tmp = &wrappers[i];
+		tmp->intersects = testCollision(*tmp);
+		
 		cg::setColor(getElementColor(*tmp));
-
 		if (tmp->boxOrCircle == 1) {
 			auto elem = static_cast<AABB*>(tmp->mathElement);
 			elem->position = tmp->position;

@@ -21,7 +21,7 @@ struct ColliderWrapper {
 class CollisionsExample : public IScreen
 {
 	math::Vector2D mouse;
-	std::array<ColliderWrapper, 2> wrappers;
+	std::array<ColliderWrapper, 4> wrappers;
 	ColliderWrapper* currentSelected;
 
 	math::AABB boxRed, boxBlue;
