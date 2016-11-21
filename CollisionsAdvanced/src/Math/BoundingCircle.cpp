@@ -29,7 +29,6 @@ BoundingCircle::BoundingCircle(math::Vector2D _position, float _radius)
 	: position(_position), radius(_radius)
 {}
 
-//ok
 BoundingCircle BoundingCircle::newByUnion(const BoundingCircle& a, const BoundingCircle& b)
 {
 	auto offset = (b.position - a.position);
@@ -58,32 +57,31 @@ float BoundingCircle::innerBoxApothem(const BoundingCircle& circle)
 	return circle.innerBoxApothem();
 }
 
-//ok
 bool BoundingCircle::contains(const Vector2D& point) const
 {
 	return distanceSqr(position, point) < pow(radius, 2);
 }
 
-//TODO arrumar
 bool BoundingCircle::contains(const AABB& box) const
 {
-	return false;
+	auto bounds = box.bounds();
+	for (auto point : bounds)
+		if (!contains(point))
+			return false;
+	return true;
 }
 
-//ok
 bool BoundingCircle::contains(const BoundingCircle& other) const
 {
 	//https://goo.gl/VFI2w5
 	return distanceSqr(position, other.position) < powf(radius - other.radius, 2);
 }
 
-//ok
 bool BoundingCircle::intersects(const AABB& box) const
 {
 	return box.intersects(*this);
 }
 
-//ok
 bool BoundingCircle::intersects(const BoundingCircle& other) const
 {
 	return distanceSqr(position, other.position) < powf(radius + other.radius, 2);
