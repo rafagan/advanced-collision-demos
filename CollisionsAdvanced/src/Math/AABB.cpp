@@ -47,7 +47,7 @@ AABB AABB::newByUnion(const AABB& a, const AABB& b)
 	return boxUnion;
 }
 
-//testando
+//OK
 bool AABB::contains(const Vector2D& point) const
 {
 	auto left = (point.x >= this->left());
@@ -65,6 +65,7 @@ bool AABB::contains(const AABB& other) const
 	return contains(p[0]) && contains(p[1]) && contains(p[2]) && contains(p[3]);
 }
 
+//testando
 bool AABB::contains(const BoundingCircle& circle) const
 {
 	//Box externa ao circulo

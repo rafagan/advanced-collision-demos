@@ -30,7 +30,8 @@ class CollisionsExample : public IScreen
 	static math::Vector3D getElementColor(const ColliderWrapper& wrapper);
 	void setSelected(int id);
 	void drawElement(const ColliderWrapper& wrapper) const;
-	void testCollision(ColliderWrapper& wrapper);
+	void testIntersects(ColliderWrapper& wrapper);
+	void testContains(ColliderWrapper& wrapper);
 public:
 	explicit CollisionsExample();
 	void init() override;

@@ -37,7 +37,7 @@ void CollisionsExample::drawElement(const ColliderWrapper& tmp) const
 }
 
 //TODO: Ugly code. Another better solution would be plan some kind of inheritance in AABB and BoundingBox to make polymorphism
-void CollisionsExample::testCollision(ColliderWrapper& wrapper)
+void CollisionsExample::testIntersects(ColliderWrapper& wrapper)
 {
 	auto c1 = wrapper.boxOrCircle == 1 ?
 		static_cast<AABB*>(wrapper.mathElement) :
@@ -80,6 +80,11 @@ void CollisionsExample::testCollision(ColliderWrapper& wrapper)
 			wrapper.intersects = false;
 		}
 	}
+}
+
+void CollisionsExample::testContains(ColliderWrapper& wrapper)
+{
+
 }
 
 CollisionsExample::CollisionsExample(): currentSelected(nullptr) {
@@ -140,7 +145,7 @@ void CollisionsExample::update()
 
 	for (auto i = 0; i < wrappers.size(); i++) {
 		auto tmp = &wrappers[i];
-		testCollision(*tmp);
+		testIntersects(*tmp);
 		
 		cg::setColor(getElementColor(*tmp));
 		if (tmp->boxOrCircle == 1) {
@@ -158,9 +163,9 @@ void CollisionsExample::update()
 void CollisionsExample::draw()
 {
 	for(auto i = 0; i < wrappers.size(); i++) {
-		auto tmp = wrappers[i];
-		if(tmp.selected) continue;
-		drawElement(tmp);
+		auto tmp = &wrappers[i];
+		if(tmp->selected) continue;
+		drawElement(*tmp);
 	}
 	drawElement(*currentSelected);
 }
