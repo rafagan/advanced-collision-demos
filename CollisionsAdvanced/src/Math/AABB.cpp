@@ -21,7 +21,7 @@ using namespace math;
 using namespace std;
 
 AABB::AABB(float x, float y, float width, float height)
-	:position(x, y), size(width, height)
+	: position(x, y), size(width, height)
 {
 }
 
@@ -161,14 +161,14 @@ float AABB::right() const
 	return (position.x + size.x);
 }
 
-float AABB::top() const
+float AABB::top(bool invertY) const
 {
-	return position.y;
+	return position.y + (invertY ? size.y : 0);
 }
 
-float AABB::bottom() const
+float AABB::bottom(bool invertY) const
 {
-	return (position.y + size.y);
+	return position.y + (!invertY ? size.y : 0);
 }
 
 //Também chamado de extents por algumas engines
@@ -188,9 +188,9 @@ array<Vector2D, 4> AABB::getBounds() const
 	return a;
 }
 
-void AABB::draw(shared_ptr<AABB_DrawHelper> helper) const
+void AABB::draw(shared_ptr<IAABB_DrawHelper> helper) const
 {
-	helper->draw(*this, false);
+	helper->draw(*this);
 }
 
 ostream& math::operator<<(ostream& output, const AABB& box)

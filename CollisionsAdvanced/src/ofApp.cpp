@@ -7,7 +7,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	/*TODO ALUNO: modifique esta variável para inicializar o exemplo*/
-	screen = new UnionPolygonExample();
+	screen = new AABBRotationExample();
 	screen->init();
 }
 

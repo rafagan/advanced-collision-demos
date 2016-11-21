@@ -65,6 +65,11 @@ bool BoundingCircle::intersects(const BoundingCircle& other) const
 	return distanceSqr(position, other.position) < powf(radius + other.radius, 2);
 }
 
+void BoundingCircle::draw(std::shared_ptr<IBoundingCircleDrawHelper> helper) const
+{
+	helper->draw(*this);
+}
+
 std::ostream& math::operator<<(std::ostream& output, const BoundingCircle& circle)
 {
 	output << "Position: " << circle.position << "\nRadius: " << circle.radius;

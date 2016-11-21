@@ -46,9 +46,10 @@ public:
 	virtual void scale(float ratio);
 	virtual void scale(math::Vector2D ratio);
 
+	virtual void update();
+
 	virtual void draw() const;
 	virtual void drawIntersection(const Actor& other) const;
-	virtual void update();
 
 	//Pixel Perfect Collision Check
 	virtual bool testCollision(const Actor& other) const;

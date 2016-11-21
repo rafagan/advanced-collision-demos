@@ -16,16 +16,29 @@
 #include <iostream>
 #include "Vector2D.h"
 #include "Vector3D.h"
+#include <memory>
 
 namespace math {
+	class BoundingCircle;
 	class AABB;
+
+	class IBoundingCircleDrawHelper {
+	public:
+		virtual void draw(const BoundingCircle& circle, bool invertY = true) const = 0;
+		virtual ~IBoundingCircleDrawHelper() {};
+	};
 
 	class BoundingCircle {
 		public:
 
 		static BoundingCircle newByUnion(const BoundingCircle& a, const BoundingCircle& b);
 
-		Vector2D position;
+		union {
+			Vector2D position;
+			Vector2D p;
+			float xy[2];
+		};
+
 		float radius;
 
 		explicit BoundingCircle(void);
@@ -39,7 +52,7 @@ namespace math {
 		bool intersects(const AABB& box) const;
 		bool intersects(const BoundingCircle& other) const;
 
-		virtual void draw(Vector3D color) const {};
+		void draw(std::shared_ptr<IBoundingCircleDrawHelper> helper) const;
 
 		virtual ~BoundingCircle(void);
 	};

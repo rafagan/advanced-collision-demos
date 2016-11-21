@@ -39,9 +39,9 @@ void AABBRotationExample::update()
 	if (KEY('D'))
 		actor->translate(Vector2D(100, 0) * dt);
 	if (KEY('W'))
-		actor->translate(Vector2D(0, -100) * dt);
-	if (KEY('S'))
 		actor->translate(Vector2D(0, 100) * dt);
+	if (KEY('S'))
+		actor->translate(Vector2D(0, -100) * dt);
 
 	actor->update();
 }

@@ -21,10 +21,10 @@ namespace math {
 	class AABB;
 	class BoundingCircle;
 
-	class AABB_DrawHelper {
+	class IAABB_DrawHelper {
 	public:
 		virtual void draw(const AABB& box, bool invertY = true) const = 0;
-		virtual ~AABB_DrawHelper() {};
+		virtual ~IAABB_DrawHelper() {};
 	};
 
 	class AABB {
@@ -67,13 +67,13 @@ namespace math {
 
 		float left() const;
 		float right() const;
-		float top() const;
-		float bottom() const;
+		float top(bool invertY = true) const;
+		float bottom(bool invertY = true) const;
 
 		Vector2D getCenter() const;
 		std::array<Vector2D, 4> getBounds() const;
 
-		void draw(std::shared_ptr<AABB_DrawHelper> helper) const;
+		void draw(std::shared_ptr<IAABB_DrawHelper> helper) const;
 
 		virtual ~AABB(void);
 	};

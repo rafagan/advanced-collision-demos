@@ -96,6 +96,18 @@ void Actor::scale(Vector2D ratio)
 	setScale(Vector2D(localScale.x * ratio.x, localScale.y * ratio.y));
 }
 
+void Actor::update()
+{
+	//Update animation
+	updateAnimationFrames();
+
+	//position.y += 10 * ofGetLastFrameTime();
+	box.transform(position, angle, getSizeScaled(), centered);
+
+	//Uncomment for an automatic AABB rotation example
+	rotate(toRadians(30 * ofGetLastFrameTime()));
+}
+
 void Actor::draw() const
 {
 	auto world = 
@@ -104,7 +116,7 @@ void Actor::draw() const
 		lh::newAffineTranslation(position);
 
 	cg::setColor(Vector3D(255, 255, 0));
-	lh::draw(world, image, size, frame);
+	lh::draw(lh::flipY(world), image, size, frame);
 	cg::setColor(Vector3D(255, 0, 0));
 	box.draw(make_shared<ofAABB_DrawHelper>());
 }
@@ -114,17 +126,6 @@ void Actor::drawIntersection(const Actor& other) const
 	if (!box.intersects(other.box)) return;
 	auto iBox = box.intersection(other.box);
 	iBox.draw(make_shared<ofAABB_DrawHelper>());
-}
-
-void Actor::update()
-{
-	//Update animation
-	updateAnimationFrames();
-
-	box.transform(position, angle, getSizeScaled(), centered);
-
-	//Uncomment for an automatic AABB rotation example
-	rotate(toRadians(30 * ofGetLastFrameTime()));
 }
 
 bool Actor::testCollision(const Actor& other) const

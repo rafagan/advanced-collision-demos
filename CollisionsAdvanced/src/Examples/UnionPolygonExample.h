@@ -1,7 +1,11 @@
 #pragma once
 #include "../IScreen.h"
+#include "../Math/Vector2D.h"
+
 class UnionPolygonExample : public IScreen
 {
+	float oscilation;
+	math::Vector2D mouse;
 public:
 	explicit UnionPolygonExample();
 	virtual ~UnionPolygonExample();
