@@ -32,7 +32,7 @@ void CollisionsExample::drawElement(const ColliderWrapper& tmp) const
 	else if (tmp.boxOrCircle == 2) {
 		auto elem = static_cast<BoundingCircle*>(tmp.mathElement);
 		elem->draw(bcDraw);
-		cg::drawCircle(elem->p, elem->radius);
+		//cg::drawCircle(elem->p, elem->radius);
 	}
 }
 
@@ -57,13 +57,11 @@ void CollisionsExample::testIntersects(ColliderWrapper& wrapper)
 				tmp->contains = true;
 				return;
 			}
-			tmp->contains = false;
 
 			if ((c1 != nullptr && elem->intersects(*c1)) || (c2 != nullptr && elem->intersects(*c2))) {
 				wrapper.intersects = true;
 				return;
 			}
-			wrapper.intersects = false;
 		} else if (tmp->boxOrCircle == 2) {
 			auto elem = static_cast<BoundingCircle*>(tmp->mathElement);
 
@@ -71,20 +69,13 @@ void CollisionsExample::testIntersects(ColliderWrapper& wrapper)
 				tmp->contains = true;
 				return;
 			}
-			tmp->contains = false;
 
 			if ((c1 != nullptr && elem->intersects(*c1)) || (c2 != nullptr && elem->intersects(*c2))) {
 				wrapper.intersects = true;
 				return;
 			}
-			wrapper.intersects = false;
 		}
 	}
-}
-
-void CollisionsExample::testContains(ColliderWrapper& wrapper)
-{
-
 }
 
 CollisionsExample::CollisionsExample(): currentSelected(nullptr) {
@@ -142,6 +133,13 @@ void CollisionsExample::update()
 
 	if (KEY(OF_KEY_UP)) currentSelected->size += 60 * ofGetLastFrameTime();
 	if (KEY(OF_KEY_DOWN)) currentSelected->size -= 60 * ofGetLastFrameTime();
+
+	//Next step will check everything again, so I need to reset collisions from previous frame
+	for (auto i = 0; i < wrappers.size(); i++) {
+		auto tmp = &wrappers[i];
+		tmp->intersects = false;
+		tmp->contains = false;
+	}
 
 	for (auto i = 0; i < wrappers.size(); i++) {
 		auto tmp = &wrappers[i];

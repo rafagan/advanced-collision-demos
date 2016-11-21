@@ -30,9 +30,10 @@ AABB::AABB(Vector2D _position, Vector2D _size)
 {
 }
 
+//TODO testar
 AABB AABB::newByBounds(float left, float right, float top, float bottom)
 {
-	return AABB(left, top, right - left, bottom - top);
+	return AABB(left, top, right - left, top - bottom);
 }
 
 //OK
@@ -65,10 +66,11 @@ bool AABB::contains(const AABB& other) const
 	return contains(p[0]) && contains(p[1]) && contains(p[2]) && contains(p[3]);
 }
 
-//testando
+//ok
 bool AABB::contains(const BoundingCircle& circle) const
 {
-	//Box externa ao circulo
+	//External box to circle
+	//https://goo.gl/Z38hHF
 	Vector2D halfSize(circle.radius, circle.radius);
 	AABB outerBox(circle.position - halfSize, halfSize * 2);
 
@@ -90,6 +92,7 @@ bool AABB::intersects(const AABB& other) const
 	return true;
 }
 
+//TODO testar
 AABB AABB::intersection(const AABB& other) const
 {
 	AABB intersectionBox;
