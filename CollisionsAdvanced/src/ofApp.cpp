@@ -2,12 +2,12 @@
 #include "Examples/UnionPolygonExample.h"
 #include "Examples/BitmaskExample.h"
 #include "Examples/AABBRotationExample.h"
-#include "Examples/CollisionsExamples.h"
+#include "Examples/CollisionsExample.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
 	/*TODO ALUNO: modifique esta variável para inicializar o exemplo*/
-	screen = new UnionPolygonExample();
+	screen = new CollisionsExample();
 	screen->init();
 }
 
@@ -44,7 +44,8 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-	EventManager::keyOn[tolower(key)] = true;
+	EventManager::lastKeyPressed = tolower(key);
+	EventManager::keyOn[EventManager::lastKeyPressed] = true;
 }
 
 //--------------------------------------------------------------
