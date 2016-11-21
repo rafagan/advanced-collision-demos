@@ -38,10 +38,10 @@ AABB AABB::newByBounds(float left, float right, float top, float bottom)
 AABB AABB::newByUnion(const AABB& a, const AABB& b)
 {
 	auto boxUnion = AABB(
-		Vector2D(a.left() < b.left() ? a.left() : b.left(), a.top() < b.top() ? a.top() : b.top()),
-		Vector2D(a.right() > b.right() ? a.right() : b.right(), a.bottom() > b.bottom() ? a.bottom() : b.bottom())
+		Vector2D(a.left() < b.left() ? a.left() : b.left(), a.bottom() < b.bottom() ? a.bottom() : b.bottom()),
+		Vector2D(a.right() > b.right() ? a.right() : b.right(), a.top() > b.top() ? a.top() : b.top())
 	);
-	boxUnion.size -= a.position;
+	boxUnion.size -= boxUnion.position;
 
 	return boxUnion;
 }
@@ -161,14 +161,14 @@ float AABB::right() const
 	return (position.x + size.x);
 }
 
-float AABB::top(bool invertY) const
+float AABB::top() const
 {
-	return position.y + (invertY ? size.y : 0);
+	return position.y + size.y;
 }
 
-float AABB::bottom(bool invertY) const
+float AABB::bottom() const
 {
-	return position.y + (!invertY ? size.y : 0);
+	return position.y;
 }
 
 //Também chamado de extents por algumas engines

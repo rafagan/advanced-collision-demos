@@ -67,8 +67,8 @@ namespace math {
 
 		float left() const;
 		float right() const;
-		float top(bool invertY = true) const;
-		float bottom(bool invertY = true) const;
+		float top() const;
+		float bottom() const;
 
 		Vector2D getCenter() const;
 		std::array<Vector2D, 4> getBounds() const;

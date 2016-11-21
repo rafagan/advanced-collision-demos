@@ -20,7 +20,7 @@ void UnionPolygonExample::init()
 
 void UnionPolygonExample::update()
 {
-	mouse.set(ofGetMouseX(), ofGetMouseY());
+	mouse.set(ofGetMouseX(), ofGetHeight() - ofGetMouseY());
 	oscilation += toRadians(30) * ofGetLastFrameTime();
 }
 
@@ -29,8 +29,8 @@ void UnionPolygonExample::draw()
 	auto variationX = sin(oscilation);
 
 	//Axis Aligned Bounding Boxes Union
-	auto boxA = AABB(AABB(mouse, Vector2D(100, 150)));
-	auto boxB = AABB(AABB(Vector2D(400, 200), Vector2D(100 + variationX * 100, 100.0f)));
+	auto boxA = AABB(AABB(Vector2D(variationX * 300.0f + 300, 500.0f), Vector2D(100, 150)));
+	auto boxB = AABB(AABB(Vector2D(400.0f, variationX * 300.0f + 400.0f), Vector2D(100 + variationX * 100, 100.0f)));
 	
 	auto aabbDraw = make_shared<ofAABB_DrawHelper>();
 
