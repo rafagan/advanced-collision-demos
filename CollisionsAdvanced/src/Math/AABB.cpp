@@ -109,9 +109,9 @@ bool AABB::intersects(const BoundingCircle& circle) const
 	else
 		nearestPoint.x = circle.position.x;
 
-	if(circle.position.y < top())
+	if(circle.position.y > top())
 		nearestPoint.y = top();
-	else if(circle.position.y > bottom())
+	else if(circle.position.y < bottom())
 		nearestPoint.y = bottom();
 	else
 		nearestPoint.y = circle.position.y;
