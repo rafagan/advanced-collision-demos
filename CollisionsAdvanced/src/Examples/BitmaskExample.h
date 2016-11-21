@@ -1,5 +1,5 @@
 #pragma once
-#include "IScreen.h"
+#include "../IScreen.h"
 
 class BitmaskExample : public IScreen
 {

@@ -1,12 +1,13 @@
 #include "ofApp.h"
-#include "AABBRotationExample.h"
-#include "UnionPolygonExample.h"
-#include "BitmaskExample.h"
+#include "Examples/UnionPolygonExample.h"
+#include "Examples/BitmaskExample.h"
+#include "Examples/AABBRotationExample.h"
+#include "Examples/CollisionsExamples.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
 	/*TODO ALUNO: modifique esta variável para inicializar o exemplo*/
-	screen = new AABBRotationExample();
+	screen = new UnionPolygonExample();
 	screen->init();
 }
 

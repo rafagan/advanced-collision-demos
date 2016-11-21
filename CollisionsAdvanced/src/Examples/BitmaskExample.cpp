@@ -1,5 +1,5 @@
 #include "BitmaskExample.h"
-#include "DrawUtils.h"
+#include "../DrawUtils.h"
 
 
 BitmaskExample::BitmaskExample()

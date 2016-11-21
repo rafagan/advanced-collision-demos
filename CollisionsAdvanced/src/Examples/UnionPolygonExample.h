@@ -1,5 +1,5 @@
 #pragma once
-#include "IScreen.h"
+#include "../IScreen.h"
 class UnionPolygonExample : public IScreen
 {
 public:
@@ -12,4 +12,3 @@ public:
 	void close() override;
 	IScreen* nextScreen() override;
 };
-

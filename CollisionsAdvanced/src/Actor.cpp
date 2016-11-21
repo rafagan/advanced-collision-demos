@@ -41,6 +41,11 @@ Vector2D Actor::getSizeScaled() const
 	return Vector2D(localScale.x * size.x, localScale.y * size.y);
 }
 
+math::AABB Actor::getBox() const
+{
+	return box;
+}
+
 void Actor::setPosition(float x, float y)
 {
 	this->position.set(x, y);
@@ -104,6 +109,13 @@ void Actor::draw() const
 	box.draw(make_shared<ofAABB_DrawHelper>());
 }
 
+void Actor::drawIntersection(const Actor& other) const
+{
+	if (!box.intersects(other.box)) return;
+	auto iBox = box.intersection(other.box);
+	iBox.draw(make_shared<ofAABB_DrawHelper>());
+}
+
 void Actor::update()
 {
 	//Update animation
@@ -113,6 +125,16 @@ void Actor::update()
 
 	//Uncomment for an automatic AABB rotation example
 	rotate(toRadians(30 * ofGetLastFrameTime()));
+}
+
+bool Actor::testCollision(const Actor& other) const
+{
+	//Broad Phase
+	if (!box.intersects(other.box)) return false;
+	return true;
+	
+	//Narrow Phase
+	//return testBitmaskCollision(other, box.intersection(other.box));
 }
 
 Actor::~Actor(void)

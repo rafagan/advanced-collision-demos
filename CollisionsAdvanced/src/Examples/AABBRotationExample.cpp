@@ -5,7 +5,8 @@
 
 using namespace math;
 
-AABBRotationExample::AABBRotationExample(): actor(nullptr) {
+AABBRotationExample::AABBRotationExample(): actor(nullptr) 
+{
 }
 
 
@@ -32,6 +33,7 @@ void AABBRotationExample::update()
 	if (EventManager::getKeyState(OF_KEY_DOWN))
 		actor->scale(-1 * dt);
 
+	//Syntax sugar
 	if (KEY('A'))
 		actor->translate(Vector2D(-100, 0) * dt);
 	if (KEY('D'))

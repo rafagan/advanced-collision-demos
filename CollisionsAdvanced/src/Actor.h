@@ -32,6 +32,7 @@ public:
 	explicit Actor(const std::string fileName, float width, float height, std::initializer_list<unsigned int> frames, float framerate = 0);
 	
 	math::Vector2D getSizeScaled() const;
+	math::AABB getBox() const;
 
 	void setPosition(float x, float y);
 	void setPosition(math::Vector2D position);
@@ -46,8 +47,11 @@ public:
 	virtual void scale(math::Vector2D ratio);
 
 	virtual void draw() const;
-	//virtual void drawIntersection(const Actor& other) const;
+	virtual void drawIntersection(const Actor& other) const;
 	virtual void update();
+
+	//Pixel Perfect Collision Check
+	virtual bool testCollision(const Actor& other) const;
 
 	virtual ~Actor(void);
 };

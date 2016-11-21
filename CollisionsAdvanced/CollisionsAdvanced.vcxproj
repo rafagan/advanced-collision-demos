@@ -175,6 +175,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Examples\CollisionsExamples.cpp" />
     <ClCompile Include="src\EventManager.cpp" />
     <ClCompile Include="src\Examples\AABBRotationExample.cpp" />
     <ClCompile Include="src\Actor.cpp" />
@@ -193,6 +194,7 @@
     <ClCompile Include="src\Examples\UnionPolygonExample.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Examples\CollisionsExamples.h" />
     <ClInclude Include="src\EventManager.h" />
     <ClInclude Include="src\Examples\AABBRotationExample.h" />
     <ClInclude Include="src\Actor.h" />

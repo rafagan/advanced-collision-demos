@@ -21,6 +21,7 @@
     <ClCompile Include="src\Examples\AABBRotationExample.cpp" />
     <ClCompile Include="src\Examples\UnionPolygonExample.cpp" />
     <ClCompile Include="src\Examples\BitmaskExample.cpp" />
+    <ClCompile Include="src\Examples\CollisionsExamples.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -51,6 +52,7 @@
     <ClInclude Include="src\Examples\AABBRotationExample.h" />
     <ClInclude Include="src\Examples\UnionPolygonExample.h" />
     <ClInclude Include="src\Examples\BitmaskExample.h" />
+    <ClInclude Include="src\Examples\CollisionsExamples.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
