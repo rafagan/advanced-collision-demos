@@ -7,7 +7,8 @@ using namespace math;
 
 math::Vector3D CollisionsExample::getElementColor(const ColliderWrapper& wrapper) {
 	return wrapper.selected ? Vector3D(255, 255, 255) :(
-		wrapper.intersects ? Vector3D(0, 255, 0) : wrapper.defaultColor);
+		wrapper.contains ? Vector3D(125, 125, 125) :(
+			wrapper.intersects ? Vector3D(0, 255, 0) : wrapper.defaultColor));
 }
 
 void CollisionsExample::setSelected(int id) {
@@ -35,9 +36,9 @@ void CollisionsExample::drawElement(const ColliderWrapper& tmp) const
 	}
 }
 
-bool CollisionsExample::testCollision(const ColliderWrapper& wrapper)
+//TODO: Ugly code. Another better solution would be plan some kind of inheritance in AABB and BoundingBox to make polymorphism
+void CollisionsExample::testCollision(ColliderWrapper& wrapper)
 {
-	//Another solution would be plan some kind of inheritance in AABB and BoundingBox to make polymorphism
 	auto c1 = wrapper.boxOrCircle == 1 ?
 		static_cast<AABB*>(wrapper.mathElement) :
 		nullptr;
@@ -46,22 +47,39 @@ bool CollisionsExample::testCollision(const ColliderWrapper& wrapper)
 		nullptr;
 
 	for (auto i = 0; i < wrappers.size(); i++) {
-		auto tmp = wrappers[i];
-		if (tmp.id == wrapper.id) continue;
+		auto tmp = &wrappers[i];
+		if (tmp->id == wrapper.id) continue;
 
-		if (tmp.boxOrCircle == 1) {
-			auto elem = static_cast<AABB*>(tmp.mathElement);
-			if (c1 != nullptr && elem->intersects(*c1)) 
-				return true;
-			if (c2 != nullptr && elem->intersects(*c2)) return true;
-		} else if (tmp.boxOrCircle == 2) {
-			auto elem = static_cast<BoundingCircle*>(tmp.mathElement);
-			if (c1 != nullptr && elem->intersects(*c1)) return true;
-			if (c2 != nullptr && elem->intersects(*c2)) return true;
+		if (tmp->boxOrCircle == 1) {
+			auto elem = static_cast<AABB*>(tmp->mathElement);
+
+			if ((c1 != nullptr && elem->contains(*c1)) || (c2 != nullptr && elem->contains(*c2))) {
+				tmp->contains = true;
+				return;
+			}
+			tmp->contains = false;
+
+			if ((c1 != nullptr && elem->intersects(*c1)) || (c2 != nullptr && elem->intersects(*c2))) {
+				wrapper.intersects = true;
+				return;
+			}
+			wrapper.intersects = false;
+		} else if (tmp->boxOrCircle == 2) {
+			auto elem = static_cast<BoundingCircle*>(tmp->mathElement);
+
+			if ((c1 != nullptr && elem->contains(*c1)) || (c2 != nullptr && elem->contains(*c2))) {
+				tmp->contains = true;
+				return;
+			}
+			tmp->contains = false;
+
+			if ((c1 != nullptr && elem->intersects(*c1)) || (c2 != nullptr && elem->intersects(*c2))) {
+				wrapper.intersects = true;
+				return;
+			}
+			wrapper.intersects = false;
 		}
 	}
-
-	return false;
 }
 
 CollisionsExample::CollisionsExample(): currentSelected(nullptr) {
@@ -122,7 +140,7 @@ void CollisionsExample::update()
 
 	for (auto i = 0; i < wrappers.size(); i++) {
 		auto tmp = &wrappers[i];
-		tmp->intersects = testCollision(*tmp);
+		testCollision(*tmp);
 		
 		cg::setColor(getElementColor(*tmp));
 		if (tmp->boxOrCircle == 1) {

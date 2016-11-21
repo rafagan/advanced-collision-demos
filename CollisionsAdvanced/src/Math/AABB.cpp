@@ -35,6 +35,7 @@ AABB AABB::newByBounds(float left, float right, float top, float bottom)
 	return AABB(left, top, right - left, bottom - top);
 }
 
+//OK
 AABB AABB::newByUnion(const AABB& a, const AABB& b)
 {
 	auto boxUnion = AABB(
@@ -46,16 +47,18 @@ AABB AABB::newByUnion(const AABB& a, const AABB& b)
 	return boxUnion;
 }
 
+//testando
 bool AABB::contains(const Vector2D& point) const
 {
-	auto left = (point.x >= position.x);
-	auto right = (point.x <= (position.x + size.x));
-	auto top = (point.y >= position.y);
-	auto bottom = (point.y <= (position.y + size.y));
+	auto left = (point.x >= this->left());
+	auto right = (point.x <= this->right());
+	auto top = (point.y <= this->top());
+	auto bottom = (point.y >= this->bottom());
 
 	return (left && right && top && bottom);
 }
 
+//ok
 bool AABB::contains(const AABB& other) const
 {
 	auto p = other.getBounds();
@@ -71,6 +74,7 @@ bool AABB::contains(const BoundingCircle& circle) const
 	return contains(outerBox);
 }
 
+//ok
 bool AABB::intersects(const AABB& other) const
 {
 	if(left() > other.right())
@@ -98,6 +102,7 @@ AABB AABB::intersection(const AABB& other) const
 	return intersectionBox;
 }
 
+//OK
 bool AABB::intersects(const BoundingCircle& circle) const
 {
 	Vector2D nearestPoint;
@@ -119,6 +124,7 @@ bool AABB::intersects(const BoundingCircle& circle) const
 	return distanceSqr(nearestPoint, circle.position) < powf(circle.radius, 2);
 }
 
+//ok
 void AABB::transform(Vector2D _position, float angle, Vector2D _size, bool centered)
 {
 	array<Vector2D, 4> bounds;
