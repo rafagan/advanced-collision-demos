@@ -18,15 +18,12 @@ void Actor::updateAnimationFrames()
 	}
 }
 
-Actor::Actor(const std::string fileName, float _width, float _height, std::initializer_list<unsigned> _frames, float _framerate)
+Actor::Actor(float _width, float _height, std::initializer_list<unsigned> _frames, float _framerate)
 	: frames(_frames), frame(0), framerate(_framerate), timeSpent(0), centered(true), color(Vector3D(255, 255, 255))
 {
-	image.load(fileName);
 	size = Vector2D(
 		_width > 0 ? _width : image.getWidth(), 
 		_height > 0 ? _height : image.getHeight());
-
-	box.size = getSizeScaled();
 
 	if (frames.empty()) 
 		frames.push_back(0);
@@ -35,6 +32,15 @@ Actor::Actor(const std::string fileName, float _width, float _height, std::initi
 	setAngle(0.0f);
 	setPosition(Vector2D());
 	setScale(Vector2D(1, 1));
+
+	box.position.set(0, 0);
+	box.size = getSizeScaled();
+}
+
+void Actor::init(const std::string fileName)
+{
+	image.load(fileName);
+	bitmask = Bitmask(image, box);
 }
 
 Vector2D Actor::getSizeScaled() const
@@ -130,17 +136,18 @@ void Actor::drawIntersection(const Actor& other) const
 	iBox.draw(make_shared<ofAABB_DrawHelper>());
 }
 
-//TODO: Desenvolver
 bool Actor::testCollision(const Actor& other) const
 {
 	//Broad Phase
 	if (!box.intersects(other.box)) return false;
-	return true;
+
+	//If you want to ignore Narrow Phase, uncomment
+	//return true;
 	
 	//Narrow Phase
-	//return testBitmaskCollision(other, box.intersection(other.box));
+	return bitmask.testCollision(other.bitmask);
 }
 
 Actor::~Actor(void)
-{	
+{
 }

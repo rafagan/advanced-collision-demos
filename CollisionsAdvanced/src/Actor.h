@@ -6,6 +6,7 @@
 #include <initializer_list>
 #include "Math/MathIncluder.h"
 #include <ofImage.h>
+#include "Bitmask.h"
 
 class Actor : public GameObject
 {
@@ -23,15 +24,15 @@ class Actor : public GameObject
 	math::Vector2D localScale;
 
 	math::AABB box;
+	Bitmask bitmask;
 
 	void updateAnimationFrames();
-
-	//BitMask
-
 public:
 	explicit Actor(): frame(0), framerate(0), timeSpent(0), centered(false), angle(0) {}
-	explicit Actor(const std::string fileName, float width, float height, std::initializer_list<unsigned int> frames, float framerate = 0);
+	explicit Actor(float width, float height, std::initializer_list<unsigned int> frames, float framerate = 0);
 	
+	void init(const std::string fileName);
+
 	math::Vector2D getSizeScaled() const;
 	math::AABB getBox() const;
 

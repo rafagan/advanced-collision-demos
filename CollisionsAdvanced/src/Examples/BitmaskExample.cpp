@@ -22,22 +22,24 @@ void BitmaskExample::init()
 	//actor1 = Actor("fight.png", 0, 0, {}, 1);
 
 	// Interesting example with animation
-	actor1 = Actor("cavaloStripe.png", 2456 / 8, 230, { 0, 1, 2, 3, 4, 5, 6, 7 }, 0.5f);
-	actor2 = Actor("ufo_1x6.png", 100, 100, { 0, 1, 2, 3, 4, 5, 4, 3, 2, 1 }, 0.1f);
+	actor1 = Actor(2456 / 8, 230, { 0, 1, 2, 3, 4, 5, 6, 7 }, 0.5f);
+	actor1.init("cavaloStripe.png");
+	actor2 = Actor(100, 100, { 0, 1, 2, 3, 4, 5, 4, 3, 2, 1 }, 0.1f);
+	actor2.init("ufo_1x6.png");
 
 	actor1.setPosition(Vector2D(600, 400));
 }
 
 void BitmaskExample::update()
 {
-	!actor1.testCollision(actor2) ? 
-		actor2.setColor(Vector3D(255, 255, 255)) : 
-		actor2.setColor(Vector3D(255, 255, 0));
-
 	actor2.setPosition(Vector2D(ofGetMouseX(), ofGetHeight() - ofGetMouseY()));
 	
 	actor1.update();
 	actor2.update();
+
+	!actor1.testCollision(actor2) ?
+		actor2.setColor(Vector3D(255, 255, 255)) :
+		actor2.setColor(Vector3D(255, 255, 0));
 }
 
 void BitmaskExample::draw()

@@ -16,7 +16,8 @@ AABBRotationExample::~AABBRotationExample()
 
 void AABBRotationExample::init()
 {
-	actor = new Actor("quad.png", 0, 0, {});
+	actor = new Actor(0, 0, {});
+	actor->init("quad.png");
 	actor->setPosition(ofGetWidth() / 2, ofGetHeight() / 2);
 }
 

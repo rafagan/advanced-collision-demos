@@ -3,7 +3,8 @@
 
 class EventManager
 {
-	friend class ofApp; //ofApp extension
+	friend class ofApp; //EventManager is some kind of ofApp global extension
+
 	static std::unordered_map<int, bool> keyOn;
 	static int lastKeyPressed;
 public:
