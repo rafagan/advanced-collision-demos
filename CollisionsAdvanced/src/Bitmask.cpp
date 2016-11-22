@@ -7,28 +7,76 @@ function<bool(ofVec4f)> Bitmask::defaultColorKey()
 	};
 }
 
-Bitmask::Bitmask(): image(nullptr), broadPhaseBox(nullptr)
+ofVec4f Bitmask::pixelColor(int x, int y) const
+{
+	auto pixels = image->getPixels();
+	auto index = y * image->getWidth() + x;
+	
+	ofVec4f result;
+	result.x = pixels[index * 4 + 1];
+	result.y = pixels[index * 4 + 2];
+	result.z = pixels[index * 4 + 3];
+	result.w = pixels[index * 4 + 4];
+
+	return result;
+}
+
+Bitmask::Bitmask(): image(nullptr), broadPhaseBox(nullptr), dimensions(nullptr), frames(nullptr), frame(nullptr)
 {
 	isColorKey = defaultColorKey();
 }
 
-Bitmask::Bitmask(ofImage& _image, math::AABB& _broadPhaseBox, function<bool(ofVec4f)> _isColorKey)
-	: image(&_image), broadPhaseBox(&_broadPhaseBox) 
+Bitmask::Bitmask(
+	ofImage& _image, math::AABB& _broadPhaseBox, 
+	math::Vector2D* _dimensions, vector<unsigned int>* _frames, unsigned int* _frame, function<bool(ofVec4f)> _isColorKey)
+	: image(&_image), broadPhaseBox(&_broadPhaseBox) , dimensions(_dimensions), frames(_frames), frame(_frame)
 {
+	if(dimensions->sizeSqr() == 0 || dimensions->sizeSqr() > math::Vector2D(image->getWidth(), image->getHeight()).sizeSqr()) {
+		dimensions->x = image->getWidth();
+		dimensions->y = image->getHeight();
+	}
 	isColorKey = _isColorKey ? _isColorKey : defaultColorKey();
 }
 
 bool Bitmask::testCollision(const Bitmask& other) const
 {
-	cout << isColorKey(ofVec4f(0, 222, 0, 1)) << endl;
-
+	//AABB intersection region to apply the bitmask check
 	auto region = broadPhaseBox->intersection(*other.broadPhaseBox);
+	
+	/*
+	Calculates which is the current row and column of the frame of the animation being played. 
+	With this coordinate, we will be able to know exactly which 
+	  is the sprite region of the image in which we will need to calculate bitmas.k
+	*/
+	auto rowMaxFrames1 = int((*frames)[*frame] / (image->getHeight() / dimensions->y));
+	auto colMaxFrames1 = int((*frames)[*frame] % int((image->getWidth() / dimensions->x)));
+	auto rowMaxFrames2 = int((*other.frames)[*other.frame] / (other.image->getHeight() / other.dimensions->y));
+	auto colMaxFrames2 = int((*other.frames)[*other.frame] % int((other.image->getWidth() / other.dimensions->x)));
 
+	/*
+	We now need to iterate over each pixel of the two images in the exact area of the intersection. 
+	If there are two colors other than Color Key, this means that there was a collision. 
+	We begin the for at the beginning of the intersection rectangle.
+	*/
 	for (auto i = int(region.bottom()); i <= int(region.top()); i++) {
-
+		/*
+		Calculates for the sprite 1 and 2 the coordinate of the pixel in the y-image.
+		This coordinate is based on the current animation frame plus the offset. 
+		We need to calculate the subtraction to push the image to the corner (0,0) of the screen. 
+		The same logic will be applied to x in the internal for.
+		*/
+		auto y1 = 0;
+		auto y2 = 0;
 
 		for (auto j = int(region.left()); j <= int(region.right()); j++) {
+			auto x1 = 0;
+			auto x2 = 0;
 
+			//If this pixel is the color key in any of the images, it's not a collision. Else, pixel collision detected
+			if (isColorKey(pixelColor(x1, y1)) || isColorKey(other.pixelColor(x2, y2))) continue;
+			
+			//TODO: Collision detected, but just with one pixel isn't too perfect?
+			return true;
 		}
 	}
 	return false;
