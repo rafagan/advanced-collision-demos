@@ -49,12 +49,14 @@ bool Bitmask::testCollision(const Bitmask& other) const
 	  is the sprite region of the image in which we will need to calculate bitmask
 	*/
 	//int rowFrame1 = (*frames)[*frame] / (image->getHeight() / dimensions->y);
-	//int colFrame1 = (*frames)[*frame] % int((image->getWidth() / dimensions->x));
+	int colFrame1 = (*frames)[*frame] % int((image->getWidth() / dimensions->x));
 	//int rowFrame2 = (*other.frames)[*other.frame] / (other.image->getHeight() / other.dimensions->y);
-	//int colFrame2 = (*other.frames)[*other.frame] % int((other.image->getWidth() / other.dimensions->x));
+	int colFrame2 = (*other.frames)[*other.frame] % int((other.image->getWidth() / other.dimensions->x));
 
-	int rowFrame1, rowFrame2, colFrame1, colFrame2;
-	rowFrame1 = rowFrame2 = colFrame1 = colFrame2 = 0;
+	int rowFrame1, rowFrame2;
+	rowFrame1 = rowFrame2 = 0;
+
+	cout << "Frame em x do cavalo: " << colFrame1 << ", Frame em x da nave: " << colFrame2 << endl;
 
 	/*
 	We now need to iterate over each pixel of the two images in the exact area of the intersection. 
