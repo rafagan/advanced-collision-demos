@@ -48,10 +48,10 @@ bool Bitmask::testCollision(const Bitmask& other) const
 	With this coordinate, we will be able to know exactly which 
 	  is the sprite region of the image in which we will need to calculate bitmas.k
 	*/
-	auto rowMaxFrames1 = int((*frames)[*frame] / (image->getHeight() / dimensions->y));
-	auto colMaxFrames1 = int((*frames)[*frame] % int((image->getWidth() / dimensions->x)));
-	auto rowMaxFrames2 = int((*other.frames)[*other.frame] / (other.image->getHeight() / other.dimensions->y));
-	auto colMaxFrames2 = int((*other.frames)[*other.frame] % int((other.image->getWidth() / other.dimensions->x)));
+	int rowMaxFrames1 = (*frames)[*frame] / (image->getHeight() / dimensions->y);
+	int colMaxFrames1 = (*frames)[*frame] % int((image->getWidth() / dimensions->x));
+	int rowMaxFrames2 = (*other.frames)[*other.frame] / (other.image->getHeight() / other.dimensions->y);
+	int colMaxFrames2 = (*other.frames)[*other.frame] % int((other.image->getWidth() / other.dimensions->x));
 
 	/*
 	We now need to iterate over each pixel of the two images in the exact area of the intersection. 
@@ -65,12 +65,12 @@ bool Bitmask::testCollision(const Bitmask& other) const
 		We need to calculate the subtraction to push the image to the corner (0,0) of the screen. 
 		The same logic will be applied to x in the internal for.
 		*/
-		auto y1 = 0;
-		auto y2 = 0;
+		int y1 = dimensions->y * rowMaxFrames1 + int(i - broadPhaseBox->bottom());
+		int y2 = other.dimensions->y * rowMaxFrames2 + int(i - other.broadPhaseBox->bottom());
 
 		for (auto j = int(region.left()); j <= int(region.right()); j++) {
-			auto x1 = 0;
-			auto x2 = 0;
+			int x1 = dimensions->x * colMaxFrames1 + int(j - broadPhaseBox->left());
+			int x2 = other.dimensions->x * colMaxFrames2 + int(j - other.broadPhaseBox->left());
 
 			//If this pixel is the color key in any of the images, it's not a collision. Else, pixel collision detected
 			if (isColorKey(pixelColor(x1, y1)) || isColorKey(other.pixelColor(x2, y2))) continue;
