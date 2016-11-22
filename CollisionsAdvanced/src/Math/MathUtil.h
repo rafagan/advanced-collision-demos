@@ -123,9 +123,29 @@ namespace math
    }
 
    template<typename T>
-   T padValue(T &value, T min, T max);
+   T padValue(T &value, T min, T max)
+   {
+	   value = std::min(std::max(value, min), max);
+	   return value;
+   }
    template<typename T>
-   T padValueCyclic(T &value, T min, T max);
+   T padValueCyclic(T &value, T min, T max)
+   {
+	   T minValue = std::min(value, min) * -1;
+	   value += minValue;
+	   min += minValue;
+	   max += minValue;
+	   T delta = max - min;
+
+	   if (value > max)
+		   value -= static_cast<T>(delta * floor(max / delta));
+	   else if (value < min)
+		   value += static_cast<T>(delta * ceil(min / delta));
+
+	   value -= minValue;
+
+	   return value;
+   }
 
    double fastSin(double radians);
 

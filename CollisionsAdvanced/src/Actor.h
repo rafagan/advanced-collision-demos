@@ -31,7 +31,7 @@ public:
 	explicit Actor(): frame(0), framerate(0), timeSpent(0), centered(false), angle(0) {}
 	explicit Actor(float width, float height, std::initializer_list<unsigned int> frames, float framerate = 0);
 	
-	void init(const std::string fileName);
+	void init(const string fileName, function<bool(ofVec4f)> isColorKey = nullptr);
 
 	math::Vector2D getSizeScaled() const;
 	math::AABB getBox() const;

@@ -1,4 +1,5 @@
 #include "Bitmask.h"
+#include <of3dGraphics.h>
 
 using namespace math;
 
@@ -12,15 +13,9 @@ function<bool(ofVec4f)> Bitmask::defaultColorKey()
 ofVec4f Bitmask::pixelColor(int x, int y) const
 {
 	auto& pixels = image->getPixels();
-	int index = y * image->getWidth() + x;
-	
-	ofVec4f result;
-	result.x = pixels[index * 4 + 1];
-	result.y = pixels[index * 4 + 2];
-	result.z = pixels[index * 4 + 3];
-	result.w = pixels[index * 4 + 4];
+	auto color = pixels.getColor(x, y);
 
-	return result;
+	return ofVec4f(color.r, color.g, color.b, color.a);
 }
 
 Bitmask::Bitmask(): image(nullptr), broadPhaseBox(nullptr), dimensions(nullptr), frames(nullptr), frame(nullptr)
@@ -72,21 +67,41 @@ bool Bitmask::testCollision(const Bitmask& other) const
 		This coordinate is based on the current animation frame plus the offset. 
 		We need to calculate the subtraction to push the image to the corner (0,0) of the screen. 
 		The same logic will be applied to x in the internal for.
+
+		Image pixels are read with y inverted, so we need to get a coordinate from top to bottom
 		*/
-		int y1 = dimensions->y * rowFrame1       + int(i - broadPhaseBox->bottom());
-		int y2 = other.dimensions->y * rowFrame2 + int(i - other.broadPhaseBox->bottom());
+		int y1 = image->getHeight() - (dimensions->y * rowFrame1             + i - int(broadPhaseBox->bottom()));
+		padValue(y1, 0, int(image->getHeight()) - 1);
+		int y2 = other.image->getHeight() - (other.dimensions->y * rowFrame2 + i - int(other.broadPhaseBox->bottom()));
+		padValue(y2, 0, int(other.image->getHeight()) - 1);
 
 		for (auto j = int(region.left()); j <= int(region.right()); j++) {
-			int x1 = dimensions->x * colFrame1       + int(j - broadPhaseBox->left());
-			int x2 = other.dimensions->x * colFrame2 + int(j - other.broadPhaseBox->left());
+			int x1 = dimensions->x * colFrame1       + j - int(broadPhaseBox->left());
+			padValue(x1, 0, int(image->getWidth()) - 1);
+			int x2 = other.dimensions->x * colFrame2 + j - int(other.broadPhaseBox->left());
+			padValue(x2, 0, int(image->getWidth()) - 1);
 
 			//If this pixel is the color key in any of the images, it's not a collision. Else, pixel collision detected
-			if (isColorKey(pixelColor(x1, y1)) || isColorKey(other.pixelColor(x2, y2))) continue;
+			if (isColorKey(pixelColor(x1, y1)) || other.isColorKey(other.pixelColor(x2, y2))) 
+				continue;
 			
+//			if (!isColorKey(pixelColor(x1, y1)))
+//				cout << "Cor da amarela não passou. Essa cor TEM QUE SER 255 242 0 255, senão é bug: " << pixelColor(x1, y1) << endl;
+//			if (!other.isColorKey(other.pixelColor(x2, y2)))
+//				cout << "Cor da branca não passou. Essa cor NÃO PODE ter g > 120, senão é bug: " << other.pixelColor(x2, y2) << endl;
+
+			auto& pixels = image->getPixels();
+			auto color = pixels.getColor(x1, y1);
+			color.r = color.g = color.b = 0;
+			pixels.setColor(x1, y1, color);
+
 			//TODO: Collision detected, but just with one pixel isn't too perfect?
-			return true;
+			//return true;
 		}
 	}
+
+	image->update();
+
 	return false;
 }
 

@@ -23,32 +23,6 @@
 #include <algorithm>
 #include "MathUtil.h"
 
-template<typename T>
-T math::padValue(T &value, T min, T max)
-{
-    value = std::min(std::max(value, min), max);
-	return value;
-}
-
-template<typename T>
-T math::padValueCyclic(T& value, T min, T max)
-{
-	T minValue = std::min(value, min) * -1;
-	value += minValue;
-	min += minValue;
-	max += minValue;
-	T delta = max - min;
-
-	if (value > max)
-		value -= static_cast<T>(delta * floor(max / delta));
-	else if (value < min)
-		value += static_cast<T>(delta * ceil(min / delta));
-
-	value -= minValue;
-
-	return value;
-}
-
 inline unsigned short radiansToBinary(double radians, const unsigned short precision = math::FAST_SIN_PRECISION)
 {
 	return static_cast<unsigned short>(math::padValueCyclic(radians, 0.0, 1.9999999 * math::MATH_PI) * precision / (2 * math::MATH_PI));
