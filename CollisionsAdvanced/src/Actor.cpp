@@ -40,7 +40,7 @@ Actor::Actor(float _width, float _height, std::initializer_list<unsigned> _frame
 void Actor::init(const std::string fileName)
 {
 	image.load(fileName);
-	bitmask = Bitmask(image, box);
+	bitmask = Bitmask(image, box, &size, &frames, &frame);
 }
 
 Vector2D Actor::getSizeScaled() const

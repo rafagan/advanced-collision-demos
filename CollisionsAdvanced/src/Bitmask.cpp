@@ -1,5 +1,7 @@
 #include "Bitmask.h"
 
+using namespace math;
+
 function<bool(ofVec4f)> Bitmask::defaultColorKey()
 {
 	return [](ofVec4f colorKey) -> bool {
@@ -9,8 +11,8 @@ function<bool(ofVec4f)> Bitmask::defaultColorKey()
 
 ofVec4f Bitmask::pixelColor(int x, int y) const
 {
-	auto pixels = image->getPixels();
-	auto index = y * image->getWidth() + x;
+	auto& pixels = image->getPixels();
+	int index = y * image->getWidth() + x;
 	
 	ofVec4f result;
 	result.x = pixels[index * 4 + 1];
@@ -28,9 +30,12 @@ Bitmask::Bitmask(): image(nullptr), broadPhaseBox(nullptr), dimensions(nullptr),
 
 Bitmask::Bitmask(
 	ofImage& _image, math::AABB& _broadPhaseBox, 
-	math::Vector2D* _dimensions, vector<unsigned int>* _frames, unsigned int* _frame, function<bool(ofVec4f)> _isColorKey)
-	: image(&_image), broadPhaseBox(&_broadPhaseBox) , dimensions(_dimensions), frames(_frames), frame(_frame)
+	Vector2D* _dimensions, vector<unsigned int>* _frames, unsigned int* _frame, function<bool(ofVec4f)> _isColorKey)
+	: image(&_image), broadPhaseBox(&_broadPhaseBox), frames(_frames), frame(_frame)
 {
+	auto zeroVec = Vector2D();
+	dimensions = _dimensions == nullptr ? &zeroVec : _dimensions;
+
 	if(dimensions->sizeSqr() == 0 || dimensions->sizeSqr() > math::Vector2D(image->getWidth(), image->getHeight()).sizeSqr()) {
 		dimensions->x = image->getWidth();
 		dimensions->y = image->getHeight();
@@ -46,12 +51,15 @@ bool Bitmask::testCollision(const Bitmask& other) const
 	/*
 	Calculates which is the current row and column of the frame of the animation being played. 
 	With this coordinate, we will be able to know exactly which 
-	  is the sprite region of the image in which we will need to calculate bitmas.k
+	  is the sprite region of the image in which we will need to calculate bitmask
 	*/
-	int rowMaxFrames1 = (*frames)[*frame] / (image->getHeight() / dimensions->y);
-	int colMaxFrames1 = (*frames)[*frame] % int((image->getWidth() / dimensions->x));
-	int rowMaxFrames2 = (*other.frames)[*other.frame] / (other.image->getHeight() / other.dimensions->y);
-	int colMaxFrames2 = (*other.frames)[*other.frame] % int((other.image->getWidth() / other.dimensions->x));
+	//int rowFrame1 = (*frames)[*frame] / (image->getHeight() / dimensions->y);
+	//int colFrame1 = (*frames)[*frame] % int((image->getWidth() / dimensions->x));
+	//int rowFrame2 = (*other.frames)[*other.frame] / (other.image->getHeight() / other.dimensions->y);
+	//int colFrame2 = (*other.frames)[*other.frame] % int((other.image->getWidth() / other.dimensions->x));
+
+	int rowFrame1, rowFrame2, colFrame1, colFrame2;
+	rowFrame1 = rowFrame2 = colFrame1 = colFrame2 = 0;
 
 	/*
 	We now need to iterate over each pixel of the two images in the exact area of the intersection. 
@@ -65,12 +73,12 @@ bool Bitmask::testCollision(const Bitmask& other) const
 		We need to calculate the subtraction to push the image to the corner (0,0) of the screen. 
 		The same logic will be applied to x in the internal for.
 		*/
-		int y1 = dimensions->y * rowMaxFrames1 + int(i - broadPhaseBox->bottom());
-		int y2 = other.dimensions->y * rowMaxFrames2 + int(i - other.broadPhaseBox->bottom());
+		int y1 = dimensions->y * rowFrame1       + int(i - broadPhaseBox->bottom());
+		int y2 = other.dimensions->y * rowFrame2 + int(i - other.broadPhaseBox->bottom());
 
 		for (auto j = int(region.left()); j <= int(region.right()); j++) {
-			int x1 = dimensions->x * colMaxFrames1 + int(j - broadPhaseBox->left());
-			int x2 = other.dimensions->x * colMaxFrames2 + int(j - other.broadPhaseBox->left());
+			int x1 = dimensions->x * colFrame1       + int(j - broadPhaseBox->left());
+			int x2 = other.dimensions->x * colFrame2 + int(j - other.broadPhaseBox->left());
 
 			//If this pixel is the color key in any of the images, it's not a collision. Else, pixel collision detected
 			if (isColorKey(pixelColor(x1, y1)) || isColorKey(other.pixelColor(x2, y2))) continue;
