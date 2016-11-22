@@ -7,8 +7,6 @@
 #include "Math/MathIncluder.h"
 #include <ofImage.h>
 
-//#include "AABB_Draw.h"
-
 class Actor : public GameObject
 {
 	ofImage image;

@@ -101,11 +101,10 @@ void Actor::update()
 	//Update animation
 	updateAnimationFrames();
 
-	//position.y += 10 * ofGetLastFrameTime();
 	box.transform(position, angle, getSizeScaled(), centered);
 
-	//Uncomment for an automatic AABB rotation example
-	rotate(toRadians(30 * ofGetLastFrameTime()));
+	//Uncomment for an automatic AABB rotation example in AABBRotationExample
+	//rotate(toRadians(30 * ofGetLastFrameTime()));
 }
 
 void Actor::draw() const
@@ -115,12 +114,13 @@ void Actor::draw() const
 		lh::newAffineRotation(angle) * 
 		lh::newAffineTranslation(position);
 
-	cg::setColor(Vector3D(255, 255, 0));
+	cg::setColor(color);
 	lh::draw(lh::flipY(world), image, size, frame);
 	cg::setColor(Vector3D(255, 0, 0));
 	box.draw(make_shared<ofAABB_DrawHelper>());
 }
 
+//TODO: Testar
 void Actor::drawIntersection(const Actor& other) const
 {
 	if (!box.intersects(other.box)) return;
@@ -128,6 +128,7 @@ void Actor::drawIntersection(const Actor& other) const
 	iBox.draw(make_shared<ofAABB_DrawHelper>());
 }
 
+//TODO: Desenvolver
 bool Actor::testCollision(const Actor& other) const
 {
 	//Broad Phase
