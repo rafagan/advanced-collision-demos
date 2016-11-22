@@ -65,8 +65,6 @@ bool Bitmask::testCollision(const Bitmask& other) const
 	int colFrame1 = currentFrameCol();
 	int colFrame2 = other.currentFrameCol();
 
-	cout << "Frame em y do cavalo: " << rowFrame1 << ", Frame em y da nave: " << rowFrame2 << endl;
-
 	/*
 	We now need to iterate over each pixel of the two images in the exact area of the intersection. 
 	If there are two colors other than Color Key, this means that there was a collision. 
