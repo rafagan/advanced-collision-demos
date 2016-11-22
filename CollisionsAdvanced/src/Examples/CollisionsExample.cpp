@@ -36,7 +36,7 @@ void CollisionsExample::drawElement(const ColliderWrapper& tmp) const
 	}
 }
 
-//TODO: Ugly code. Another better solution would be plan some kind of inheritance in AABB and BoundingBox to make polymorphism
+//TODO: Ugly code. Another better solution would be plan some kind of inheritance in AABB and BC to make polymorphism
 void CollisionsExample::testIntersects(ColliderWrapper& wrapper)
 {
 	auto c1 = wrapper.boxOrCircle == 1 ?

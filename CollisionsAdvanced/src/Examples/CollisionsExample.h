@@ -31,7 +31,6 @@ class CollisionsExample : public IScreen
 	void setSelected(int id);
 	void drawElement(const ColliderWrapper& wrapper) const;
 	void testIntersects(ColliderWrapper& wrapper);
-	void testContains(ColliderWrapper& wrapper);
 public:
 	explicit CollisionsExample();
 	void init() override;
