@@ -121,11 +121,12 @@ void Actor::draw() const
 	box.draw(make_shared<ofAABB_DrawHelper>());
 }
 
-//TODO: Testar
 void Actor::drawIntersection(const Actor& other) const
 {
 	if (!box.intersects(other.box)) return;
 	auto iBox = box.intersection(other.box);
+
+	cg::setColor(Vector3D(0, 0, 255));
 	iBox.draw(make_shared<ofAABB_DrawHelper>());
 }
 

@@ -25,6 +25,9 @@ class Actor : public GameObject
 	math::AABB box;
 
 	void updateAnimationFrames();
+
+	//BitMask
+
 public:
 	explicit Actor(): frame(0), framerate(0), timeSpent(0), centered(false), angle(0) {}
 	explicit Actor(const std::string fileName, float width, float height, std::initializer_list<unsigned int> frames, float framerate = 0);

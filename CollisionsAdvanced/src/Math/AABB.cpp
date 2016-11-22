@@ -98,14 +98,13 @@ bool AABB::intersects(const AABB& other) const
 	return true;
 }
 
-//TODO testar
 AABB AABB::intersection(const AABB& other) const
 {
 	AABB intersectionBox;
-	intersectionBox.position.x = static_cast<float>(left() > other.left() ? left() : other.left());
-	intersectionBox.position.y = static_cast<float>(top() > other.top() ? top() : other.top());
-	intersectionBox.size.x = static_cast<float>(right() < other.right() ? right() : other.right());
-	intersectionBox.size.y = static_cast<float>(bottom() < other.bottom() ? bottom() : other.bottom());
+	intersectionBox.position.x = left() > other.left() ? left() : other.left();
+	intersectionBox.position.y = bottom() > other.bottom() ? bottom() : other.bottom();
+	intersectionBox.size.x = right() < other.right() ? right() : other.right();
+	intersectionBox.size.y = top() < other.top() ? top() : other.top();
 
 	intersectionBox.size -= intersectionBox.position;
 
