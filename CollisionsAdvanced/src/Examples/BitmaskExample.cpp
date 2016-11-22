@@ -2,6 +2,7 @@
 #include "../DrawUtils.h"
 #include "../Actor.h"
 #include <of3dGraphics.h>
+#include <ofCamera.h>
 
 using namespace math;
 
@@ -40,6 +41,8 @@ void BitmaskExample::update()
 
 void BitmaskExample::draw()
 {
+	ofSetBackgroundColor(255, 255, 255);
+
 	actor1.draw();
 	//actor2.draw();
 	//actor2.drawIntersection(actor1);

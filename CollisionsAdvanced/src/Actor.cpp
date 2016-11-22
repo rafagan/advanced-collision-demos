@@ -8,13 +8,14 @@ using namespace math;
 
 void Actor::updateAnimationFrames()
 {
-	if (frames.size() > 1)
+	if (frames.size() > 1) {
 		if (ofGetElapsedTimef() > timeSpent + framerate) {
 			timeSpent = ofGetElapsedTimef();
-			frame = frame + 1 == frames.size() ? 0 : ++frame;
+			frame = (frame + 1) % frames.size();
 		}
-		else
-			frame = 0;
+	} else {
+		frame = 0;
+	}
 }
 
 Actor::Actor(const std::string fileName, float _width, float _height, std::initializer_list<unsigned> _frames, float _framerate)
