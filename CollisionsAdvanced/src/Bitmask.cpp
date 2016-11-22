@@ -79,7 +79,7 @@ bool Bitmask::testCollision(const Bitmask& other) const
 			int x1 = dimensions->x * colFrame1       + j - int(broadPhaseBox->left());
 			padValue(x1, 0, int(image->getWidth()) - 1);
 			int x2 = other.dimensions->x * colFrame2 + j - int(other.broadPhaseBox->left());
-			padValue(x2, 0, int(image->getWidth()) - 1);
+			padValue(x2, 0, int(other.image->getWidth()) - 1);
 
 			//If this pixel is the color key in any of the images, it's not a collision. Else, pixel collision detected
 			if (isColorKey(pixelColor(x1, y1)) || other.isColorKey(other.pixelColor(x2, y2))) 
@@ -89,18 +89,18 @@ bool Bitmask::testCollision(const Bitmask& other) const
 //				cout << "Cor da amarela não passou. Essa cor TEM QUE SER 255 242 0 255, senão é bug: " << pixelColor(x1, y1) << endl;
 //			if (!other.isColorKey(other.pixelColor(x2, y2)))
 //				cout << "Cor da branca não passou. Essa cor NÃO PODE ter g > 120, senão é bug: " << other.pixelColor(x2, y2) << endl;
-
-			auto& pixels = image->getPixels();
-			auto color = pixels.getColor(x1, y1);
-			color.r = color.g = color.b = 0;
-			pixels.setColor(x1, y1, color);
+//
+//			auto& pixels = image->getPixels();
+//			auto color = pixels.getColor(x1, y1);
+//			color.r = color.g = color.b = 0;
+//			pixels.setColor(x1, y1, color);
 
 			//TODO: Collision detected, but just with one pixel isn't too perfect?
-			//return true;
+			return true;
 		}
 	}
 
-	image->update();
+//	image->update();
 
 	return false;
 }
