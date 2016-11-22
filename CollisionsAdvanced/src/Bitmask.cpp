@@ -18,6 +18,18 @@ ofVec4f Bitmask::pixelColor(int x, int y) const
 	return ofVec4f(color.r, color.g, color.b, color.a);
 }
 
+unsigned Bitmask::currentFrameRow() const
+{
+	auto maxFramesX = unsigned int(image->getWidth() / dimensions->x);
+	return (*frames)[*frame] / maxFramesX;
+}
+
+unsigned Bitmask::currentFrameCol() const
+{
+	auto maxFramesX = unsigned int(image->getWidth() / dimensions->x);
+	return (*frames)[*frame] % maxFramesX;
+}
+
 Bitmask::Bitmask(): image(nullptr), broadPhaseBox(nullptr), dimensions(nullptr), frames(nullptr), frame(nullptr)
 {
 	isColorKey = defaultColorKey();
@@ -48,15 +60,12 @@ bool Bitmask::testCollision(const Bitmask& other) const
 	With this coordinate, we will be able to know exactly which 
 	  is the sprite region of the image in which we will need to calculate bitmask
 	*/
-	//int rowFrame1 = (*frames)[*frame] / (image->getHeight() / dimensions->y);
-	int colFrame1 = (*frames)[*frame] % int((image->getWidth() / dimensions->x));
-	//int rowFrame2 = (*other.frames)[*other.frame] / (other.image->getHeight() / other.dimensions->y);
-	int colFrame2 = (*other.frames)[*other.frame] % int((other.image->getWidth() / other.dimensions->x));
+	int rowFrame1 = currentFrameRow();
+	int rowFrame2 = other.currentFrameRow();
+	int colFrame1 = currentFrameCol();
+	int colFrame2 = other.currentFrameCol();
 
-	int rowFrame1, rowFrame2;
-	rowFrame1 = rowFrame2 = 0;
-
-	cout << "Frame em x do cavalo: " << colFrame1 << ", Frame em x da nave: " << colFrame2 << endl;
+	cout << "Frame em y do cavalo: " << rowFrame1 << ", Frame em y da nave: " << rowFrame2 << endl;
 
 	/*
 	We now need to iterate over each pixel of the two images in the exact area of the intersection. 

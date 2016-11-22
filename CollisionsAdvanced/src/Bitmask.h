@@ -16,6 +16,8 @@ class Bitmask
 
 	static function<bool(ofVec4f)> defaultColorKey();
 	ofVec4f pixelColor(int x, int y) const;
+	unsigned int currentFrameRow() const;
+	unsigned int currentFrameCol() const;
 public:
 	explicit Bitmask();
 	explicit Bitmask(
