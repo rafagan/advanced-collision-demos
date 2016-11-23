@@ -94,22 +94,17 @@ bool Bitmask::testCollision(const Bitmask& other) const
 			if (isColorKey(pixelColor(x1, y1)) || other.isColorKey(other.pixelColor(x2, y2))) 
 				continue;
 			
-//			if (!isColorKey(pixelColor(x1, y1)))
-//				cout << "Cor da amarela não passou. Essa cor TEM QUE SER 255 242 0 255, senão é bug: " << pixelColor(x1, y1) << endl;
-//			if (!other.isColorKey(other.pixelColor(x2, y2)))
-//				cout << "Cor da branca não passou. Essa cor NÃO PODE ter g > 120, senão é bug: " << other.pixelColor(x2, y2) << endl;
-//
-//			auto& pixels = image->getPixels();
-//			auto color = pixels.getColor(x1, y1);
-//			color.r = color.g = color.b = 0;
-//			pixels.setColor(x1, y1, color);
+			auto& pixels = image->getPixels();
+			auto color = pixels.getColor(x1, y1);
+			color.r = color.g = color.b = 0;
+			pixels.setColor(x1, y1, color);
 
 			//TODO: Collision detected, but just with one pixel isn't too perfect?
-			return true;
+//			return true;
 		}
 	}
 
-//	image->update();
+	image->update();
 
 	return false;
 }

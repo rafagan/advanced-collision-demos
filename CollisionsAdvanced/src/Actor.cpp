@@ -41,15 +41,6 @@ void Actor::init(const string fileName, function<bool(ofVec4f)> isColorKey)
 {
 	image.load(fileName);
 	bitmask = Bitmask(image, box, &size, &frames, &frame, isColorKey);
-
-//	if(fileName == "circ_white.png")
-//	for (auto y = 0; y < image.getHeight(); y++) {
-//		for (auto x = 0; x < image.getWidth(); x++)
-//			if (image.getColor(x, y) != ofColor(255, 255, 255, 255))
-//				assert(false);
-//	}
-
-
 }
 
 Vector2D Actor::getSizeScaled() const
